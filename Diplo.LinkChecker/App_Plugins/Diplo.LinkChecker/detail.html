@@ -1,0 +1,94 @@
+﻿<script>
+    function LinkCheckerDetailController($scope, $routeParams, $http, $filter) {
+
+        $http.get("/App_Plugins/Diplo.LinkChecker/HttpStatusCodes.js").
+                success(function (data, status, headers, config) {
+                    $scope.httpCode = $filter('filter')(data, function (d) { return d.code == $scope.dialogData.StatusCode; })[0];
+        });
+    }
+</script>
+
+<style type="text/css">
+    #logdetail .tlError
+    {
+        color: #c00;
+    }
+
+    #logdetail .tlWarn
+    {
+        color: #cc8c00;
+    }
+
+    #logdetail .logger
+    {
+        font-family: 'Courier New', serif;
+    }
+
+    #logdetail .message
+    {
+        font-family: 'Courier New', serif;
+        white-space: pre-wrap;
+        background-color: #f8f8f8;
+        border: 1px solid #dbdbdb;
+        padding: 8px;
+        overflow: auto;
+    }
+
+    #logdetail .umb-scrollable
+    {
+        z-index: 9999;
+    }
+
+    #logdetail .umb-panel-footer .btn
+    {
+        z-index: 99999;
+    }
+</style>
+
+<div class="umb-panel" ng-controller="LinkCheckerDetailController" id="linkdetail">
+
+	<div class="umb-panel-header">
+		<div class="umb-el-wrap">
+	        <h3>Link Details</h3>
+    	</div>
+	</div>
+
+    <div class="umb-panel-body with-footer">
+
+        <table class="table">
+
+            <tr>
+                <th>URL</th>
+                <td><a ng-href="{{ dialogData.Url }}" target="_blank">{{ dialogData.Url }}</a></td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ dialogData.Type }} ({{ dialogData.TagName}} {{ dialogData.Attribute }})</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ dialogData.StatusCode }} {{ dialogData.Status }}</td>
+            </tr>
+            <tr>
+                <th>Explanation</th>
+                <td><a ng-href="{{ httpCode.spec_href }}" target="_blank" title="{{ httpCode.spec_title }}">{{ httpCode.description }}</a></td>
+            </tr>
+            <tr>
+                <th>Position</th>
+                <td>Line {{ dialogData.Line }}, Column {{ dialogData.Column }}</td>
+            </tr>
+        </table>
+
+    </div>
+
+    <div class="umb-panel-footer" >
+		<div class="umb-el-wrap umb-panel-buttons">
+	        <div class="btn-toolbar umb-btn-toolbar pull-right">
+	        	<a href ng-click="close()" class="btn btn-link">
+	        		<localize key="general_cancel">Cancel</localize>
+				</a>
+	        </div>
+		</div>
+	</div>
+
+</div>
