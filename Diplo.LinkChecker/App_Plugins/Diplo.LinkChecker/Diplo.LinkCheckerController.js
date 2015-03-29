@@ -1,25 +1,17 @@
 angular.module("umbraco")
     .controller("Diplo.LinkCheckerController",
-    function ($scope, $http, assetsService, dialogService, notificationsService) {
+    function ($scope, $http, dialogService, notificationsService) {
 
         var baseApiUrl = "/Umbraco/Api/LinkChecker/";
         var checkLinksUrl = baseApiUrl + "CheckPage/";
         var getIdsToCheckUrl = baseApiUrl + "GetIdsToCheck/";
 
-        var startId = 1074;
-        $scope.checkedPages = [];
-        $scope.progress = 0;
         $scope.buttonText = "Start Check";
-        $scope.startNodeName = "";
-        $scope.startNodeIcon = "";
-        $scope.onlyErrors = false;
-        $scope.finished = false;
-        $scope.showStartMessage = false;
-
         $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
 
         $scope.startCheck = function () {
             $scope.showStartMessage = true;
+            $scope.startNodeName = null;
             dialogService.contentPicker({
                 multiPicker: false,
                 callback: function (data) {
@@ -41,6 +33,7 @@ angular.module("umbraco")
             $scope.finished = false;
             $scope.showStartMessage = false;
             $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
+            $scope.finishMessage = "";
 
             $http.get(getIdsToCheckUrl + data.id).
                 success(function (data, status, headers, config) {
@@ -53,7 +46,7 @@ angular.module("umbraco")
                         $http.get(checkLinksUrl + data[i]).
                           success(function (data, status, headers, config) {
 
-                              console.log(data);
+                              //console.log(data);
 
                               $scope.linksCheckedCnt += data.LinksCount;
                               $scope.linksErrorCnt += data.ErrorCount;
@@ -61,14 +54,13 @@ angular.module("umbraco")
                               $scope.pageCnt++;
 
                               $scope.checkedPages.push(data);
-
                               $scope.progress = calculateProgress(i, dataLength);
-
 
                               $scope.finished = (cnt++ === dataLength);
 
                               if ($scope.finished) {
-                                  notificationsService.success("Finished!", "Link Check has checked " + $scope.linksCheckedCnt + " links and found " + $scope.linksErrorCnt + " errors.");
+                                  $scope.finishMessage = "Checked <strong>" + $scope.linksCheckedCnt + "</strong> links and found <strong>" + $scope.linksErrorCnt + "</strong> errors."
+                                  notificationsService.success("Finished!", $scope.finishMessage);
                                   $scope.buttonText = "Start Check";
                               }
                           }).
@@ -88,10 +80,16 @@ angular.module("umbraco")
         };
 
 
-        $scope.openDetail = function (link) {
+        $scope.openDetail = function (link, page) {
+
+            link["page"] = page;
+            var dialogData = link;
+
+            console.log(dialogData);
+
             var dialog = dialogService.open({
                 template: '/App_Plugins/Diplo.LinkChecker/detail.html',
-                dialogData: link, show: true, width: 800
+                dialogData: dialogData, show: true, width: 800
             });
         }
     

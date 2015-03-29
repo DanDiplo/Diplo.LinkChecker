@@ -5,26 +5,22 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3><i class="icon-link"></i> Link Checker</h3>
+                <h3><i class="icon-link"></i> Link Checker <small>v1.0</small></h3> 
             </div>
 
             <div class="row">
 
-                <div class="span2">
+                <div class="span3">
                     <button ng-click="startCheck()" class="btn btn-success">{{ buttonText }}</button>
                 </div>
 
-                <div class="span2">
+                <div class="span3">
                     <label>
                         <input id="onlyErrors" type="checkbox" ng-model="onlyErrors" />
                         Only show errors</label>
                 </div>
 
-                <div class="span4">
-                    <p ng-show="startNodeName">Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong> </p>
-                </div>
-
-                <div class="span4">
+                <div class="span6">
                     <div class="row">
                         <div class="span4">
                             Checked: <span class="badge">{{ linksCheckedCnt }}</span>
@@ -46,7 +42,9 @@
                 <div class="bar" ng-style="{ width: progress + '%' }"></div>
             </div>
 
-             <p ng-show="showStartMessage">Select the page to start the link check from</p>
+             <p ng-show="showStartMessage"><strong>Select the page to start the link check from <i class="icon-arrow-right"></i></strong></p>
+
+             <p ng-show="startNodeName">Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong>. <span ng-bind-html="finishMessage"></span></p>
 
         </div>
 
@@ -101,7 +99,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr ng-repeat="link in page.CheckedLinks" ng-show="(onlyErrors && !link.IsSuccessCode) || !onlyErrors">
-                                                        <td><a href ng-click="openDetail(link)" target="_blank" title="{{link.Text}}">{{ link.Url }}</a></td>
+                                                        <td><a href ng-click="openDetail(link, page)" target="_blank" title="{{link.Text}}">{{ link.Url }}</a></td>
                                                         <td>{{ link.Type }}</td>
                                                         <td>{{link.StatusCode }} {{ link.Status }}</td>
                                                         <td><span ng-class="{ 'label label-success' : link.IsSuccessCode, 'label label-error' : !link.IsSuccessCode }"><i ng-class="{ 'icon-check' : link.IsSuccessCode, 'icon-alert' : !link.IsSuccessCode }"></i></span></td>
