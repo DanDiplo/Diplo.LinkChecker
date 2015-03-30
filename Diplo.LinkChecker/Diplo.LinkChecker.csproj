@@ -196,7 +196,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\HtmlParsingService.cs" />
     <Compile Include="Services\HttpCheckerService.cs" />
-    <Compile Include="Services\PageCheckerService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

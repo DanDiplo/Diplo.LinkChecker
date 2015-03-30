@@ -8,19 +8,25 @@
                 <h3><i class="icon-link"></i> Link Checker <small>v1.0</small></h3> 
             </div>
 
+            <div class="alert alert-error" ng-show="errorMessage.length > 0">
+                <p>{{ errorMessage }}</p>
+            </div>
+
             <div class="row">
 
-                <div class="span3">
+                <div class="span2">
                     <button ng-click="startCheck()" class="btn btn-success">{{ buttonText }}</button>
                 </div>
 
-                <div class="span3">
-                    <label>
-                        <input id="onlyErrors" type="checkbox" ng-model="onlyErrors" />
-                        Only show errors</label>
+                <div class="span2">
+                    <label title="Tick to only show pages and links that have errors"><input id="onlyErrors" type="checkbox" ng-model="onlyErrors" /> Only show errors</label>
                 </div>
 
-                <div class="span6">
+                <div class="span3">
+                    <label title="Tick to hide links that have been checked within the last minute"><input type="checkbox" ng-model="hideCheckedPreviously" /> Hide links checked previously</label>
+                </div>
+
+                <div class="span5">
                     <div class="row">
                         <div class="span4">
                             Checked: <span class="badge">{{ linksCheckedCnt }}</span>
@@ -38,7 +44,7 @@
 
  
             <br />
-            <div class="progress progress-striped active" title="{{ progress }} %">
+            <div class="progress progress-striped" title="{{ progress }} %">
                 <div class="bar" ng-style="{ width: progress + '%' }"></div>
             </div>
 
@@ -71,7 +77,7 @@
                         <div class="span2">
                             <ul class="unstyled inline divider icons">
                                 <li><a ng-href="{{page.Url}}" target="_blank" title="View"><i class="icon-out"></i></a></li>
-                                <li><a href="#/content/content/edit/{{ page.Id }}" title="Edit"><i class="icon-edit"></i></a></li>
+                                <li><a ng-href="#/content/content/edit/{{ page.Id }}" target="_blank" title="Edit"><i class="icon-edit"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -98,8 +104,8 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="link in page.CheckedLinks" ng-show="(onlyErrors && !link.IsSuccessCode) || !onlyErrors">
-                                                        <td><a href ng-click="openDetail(link, page)" target="_blank" title="{{link.Text}}">{{ link.Url }}</a></td>
+                                                    <tr ng-repeat="link in page.CheckedLinks" ng-show="((onlyErrors && !link.IsSuccessCode) || !onlyErrors) && ((hideCheckedPreviously && !link.CheckedPreviously) || !hideCheckedPreviously)">
+                                                        <td><a href ng-click="openDetail(link, page)">{{ link.Url }}</a></td>
                                                         <td>{{ link.Type }}</td>
                                                         <td>{{link.StatusCode }} {{ link.Status }}</td>
                                                         <td><span ng-class="{ 'label label-success' : link.IsSuccessCode, 'label label-error' : !link.IsSuccessCode }"><i ng-class="{ 'icon-check' : link.IsSuccessCode, 'icon-alert' : !link.IsSuccessCode }"></i></span></td>

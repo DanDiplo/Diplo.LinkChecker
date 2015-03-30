@@ -9,39 +9,8 @@
 </script>
 
 <style type="text/css">
-    #logdetail .tlError
-    {
-        color: #c00;
-    }
-
-    #logdetail .tlWarn
-    {
-        color: #cc8c00;
-    }
-
-    #logdetail .logger
-    {
-        font-family: 'Courier New', serif;
-    }
-
-    #logdetail .message
-    {
-        font-family: 'Courier New', serif;
-        white-space: pre-wrap;
-        background-color: #f8f8f8;
-        border: 1px solid #dbdbdb;
-        padding: 8px;
-        overflow: auto;
-    }
-
-    #logdetail .umb-scrollable
-    {
-        z-index: 9999;
-    }
-
-    #logdetail .umb-panel-footer .btn
-    {
-        z-index: 99999;
+    #linkdetail table a {
+        text-decoration:underline;
     }
 </style>
 
@@ -49,37 +18,48 @@
 
 	<div class="umb-panel-header">
 		<div class="umb-el-wrap">
-	        <h3>Link Details</h3>
+	        <h3>Link Details <b class="icon-alert" ng-show="!dialogData.IsSuccessCode"></b></h3>
     	</div>
 	</div>
 
     <div class="umb-panel-body with-footer">
 
         <table class="table">
-
             <tr>
                 <th>URL</th>
-                <td><a ng-href="{{ dialogData.Url }}" target="_blank">{{ dialogData.Url }}</a></td>
-            </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ dialogData.Type }} ({{ dialogData.TagName}} {{ dialogData.Attribute }})</td>
+                <td><a ng-href="{{ dialogData.Url }}" target="_blank" title="Open link">{{ dialogData.Url }}</a></td>
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ dialogData.StatusCode }} {{ dialogData.Status }}</td>
+                <td><span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span> {{ dialogData.Status }}</td>
             </tr>
             <tr>
                 <th>Explanation</th>
                 <td><a ng-href="{{ httpCode.spec_href }}" target="_blank" title="{{ httpCode.spec_title }}">{{ httpCode.description }}</a></td>
             </tr>
             <tr>
+                <th>Type</th>
+                <td>{{ dialogData.Type }} ({{ dialogData.TagName}} {{ dialogData.Attribute }})</td>
+            </tr>
+            <tr>
+                <th>Text</th>
+                <td title="The link text">{{ dialogData.Text }}</td>
+            </tr>
+            <tr>
                 <th>Page</th>
-                <td>{{ dialogData.page.Name }}</td>
+                <td title="Id: {{ dialogData.page.Id }}">{{ dialogData.page.Name }}</td>
             </tr>
             <tr>
                 <th>Position</th>
                 <td>Line {{ dialogData.Line }}, Column {{ dialogData.Column }}</td>
+            </tr>
+            <tr>
+                <th>Updated</th>
+                <td>Last edited by {{ dialogData.page.UpdateUser }} on {{ dialogData.page.UpdateDate }}</td>
+            </tr>
+            <tr>
+                <th>Action</th>
+                <td><a ng-href="{{dialogData.page.Url}}" target="_blank" title="View">View Page</a> | <a ng-href="#/content/content/edit/{{ dialogData.page.Id }}" target="_blank" title="Edit page">Edit Page</a></td>
             </tr>
         </table>
 

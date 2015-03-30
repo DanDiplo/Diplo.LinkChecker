@@ -10,7 +10,6 @@ using System.Runtime.Caching;
 
 namespace Diplo.LinkChecker.Services
 {
-
     public class HttpCheckerService
     {
         public string UserAgent { get; set; }
@@ -91,6 +90,7 @@ namespace Diplo.LinkChecker.Services
                         link.StatusCode = ((int)response.StatusCode).ToString();
 
                         link.IsSuccessCode = response.IsSuccessStatusCode;
+                        MemoryCache.Default.Add(link.Url.AbsoluteUri, link, DateTime.Now.AddMinutes(1));
                     }
                 }
             }
@@ -116,9 +116,6 @@ namespace Diplo.LinkChecker.Services
             {
                 link.Error = link.Status = ex.Message;
             }
-
-            MemoryCache.Default.Add(link.Url.AbsoluteUri, link, DateTime.Now.AddMinutes(1));
-
 
             return link;
         }

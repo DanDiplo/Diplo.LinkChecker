@@ -5,9 +5,12 @@ angular.module("umbraco")
         var baseApiUrl = "/Umbraco/Api/LinkChecker/";
         var checkLinksUrl = baseApiUrl + "CheckPage/";
         var getIdsToCheckUrl = baseApiUrl + "GetIdsToCheck/";
+        var dialog;
 
         $scope.buttonText = "Start Check";
         $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
+        $scope.errorMessage = "";
+        $scope.onlyErrors = false;
 
         $scope.startCheck = function () {
             $scope.showStartMessage = true;
@@ -34,6 +37,7 @@ angular.module("umbraco")
             $scope.showStartMessage = false;
             $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
             $scope.finishMessage = "";
+            $scope.errorMessage = "";
 
             $http.get(getIdsToCheckUrl + data.id).
                 success(function (data, status, headers, config) {
@@ -60,16 +64,25 @@ angular.module("umbraco")
 
                               if ($scope.finished) {
                                   $scope.finishMessage = "Checked <strong>" + $scope.linksCheckedCnt + "</strong> links and found <strong>" + $scope.linksErrorCnt + "</strong> errors."
+                                  if ($scope.linksErrorCnt == 0) {
+                                      $scope.finishMessage += " <i class='icon-smiley-inverted'></i>";
+                                  }
+
                                   notificationsService.success("Finished!", $scope.finishMessage);
                                   $scope.buttonText = "Start Check";
                               }
                           }).
-                          error(function (data, status, headers, config) {
+                          error(function (datax, status, headers, config) {
                               $scope.pageCnt++;
+                              $scope.errorMessage = status + ". " + datax.Message + "\n" + datax.ExceptionMessage;
+                              console.log(datax);
                           });
                     }
                 }).
                 error(function (data, status, headers, config) {
+                    $scope.errorMessage = "Fatal Error! " + status + ". Unable to retrieve pages from Umbraco to check!";
+                    $scope.buttonText = "Start Check";
+                    console.log(data);
                 });
 
         }
@@ -82,12 +95,14 @@ angular.module("umbraco")
 
         $scope.openDetail = function (link, page) {
 
+            if (dialog) {
+                dialog.close();
+            }
+
             link["page"] = page;
             var dialogData = link;
 
-            console.log(dialogData);
-
-            var dialog = dialogService.open({
+            dialog = dialogService.open({
                 template: '/App_Plugins/Diplo.LinkChecker/detail.html',
                 dialogData: dialogData, show: true, width: 800
             });
