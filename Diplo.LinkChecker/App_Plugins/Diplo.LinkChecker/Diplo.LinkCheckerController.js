@@ -2,7 +2,7 @@ angular.module("umbraco")
     .controller("Diplo.LinkCheckerController",
     function ($scope, $http, dialogService, notificationsService) {
 
-        var baseApiUrl = "/Umbraco/Api/LinkChecker/";
+        var baseApiUrl = "/Umbraco/BackOffice/Api/LinkChecker/";
         var checkLinksUrl = baseApiUrl + "CheckPage/";
         var getIdsToCheckUrl = baseApiUrl + "GetIdsToCheck/";
         var dialog;

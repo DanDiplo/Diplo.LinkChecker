@@ -11,18 +11,16 @@ namespace Diplo.LinkChecker.Services
 {
     public class HtmlParsingService
     {
-        private static Regex MatchProtocolRegex = new Regex(@"^\w{3,8}://*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
-
-        private static string[] InvalidProtocols = { "mailto:", "ftp:", "tel:" };
-
         public HtmlParsingService(Uri baseUri)
         {
             this.BaseUri = baseUri;
         }
 
+        private static Regex MatchProtocolRegex = new Regex(@"^\w{3,8}://*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+
+        private static string[] InvalidProtocols = { "mailto:", "ftp:", "tel:" };
 
         public Uri BaseUri { get; private set; }
-
 
         public IEnumerable<Link> GetLinksFromHtmlDocument(string html)
         {

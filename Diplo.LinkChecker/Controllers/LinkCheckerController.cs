@@ -17,7 +17,7 @@ namespace Diplo.LinkChecker.Controllers
     /// <summary>
     /// Controller for checking links and related tasks
     /// </summary>
-    public class LinkCheckerController : UmbracoApiController
+    public class LinkCheckerController : UmbracoAuthorizedApiController
     {
         /// <summary>
         /// Checks all the links in the page with the given node Id
@@ -25,7 +25,7 @@ namespace Diplo.LinkChecker.Controllers
         /// <param name="id">The Id of the node to check</param>
         /// <returns>A list of checked links</returns>
         /// <remarks>
-        /// /Umbraco/Api/LinkChecker/CheckPage/1073
+        /// /Umbraco/Backoffice/Api/LinkChecker/CheckPage/1073
         /// </remarks>
         [HttpGet]
         public async Task<CheckedPage> CheckPage(int id)
@@ -57,7 +57,7 @@ namespace Diplo.LinkChecker.Controllers
         /// <param name="id">The start node Id</param>
         /// <returns>A list of node Ids</returns>
         /// <remarks>
-        /// /Umbraco/Api/LinkChecker/GetIdsToCheck/1073
+        /// /Umbraco/Backoffice/Api/LinkChecker/GetIdsToCheck/1073
         /// </remarks>
         [HttpGet]
         public IEnumerable<int> GetIdsToCheck(int id)
