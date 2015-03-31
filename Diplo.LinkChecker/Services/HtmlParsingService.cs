@@ -26,8 +26,18 @@ namespace Diplo.LinkChecker.Services
 
         public IEnumerable<Link> GetLinksFromHtmlDocument(string html)
         {
+            if (String.IsNullOrEmpty(html))
+            {
+                yield break;
+            }
+
             HtmlDocument doc = new HtmlDocument();
             doc.LoadHtml(html);
+
+            if (doc == null || doc.DocumentNode == null)
+            {
+                yield break;
+            }
 
             foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//*[@src or @href]"))
             {
@@ -49,7 +59,7 @@ namespace Diplo.LinkChecker.Services
                     continue;
                 }
 
-                if (!String.IsNullOrEmpty(source.Value) && source.Value.Trim() != "#")
+                if (source != null && !String.IsNullOrEmpty(source.Value) && source.Value.Trim() != "#")
                 {
                     Uri uri;
 
