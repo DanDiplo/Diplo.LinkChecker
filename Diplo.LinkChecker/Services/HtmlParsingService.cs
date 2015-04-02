@@ -1,18 +1,30 @@
-﻿using Diplo.LinkChecker.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using HtmlAgilityPack;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
+using Diplo.LinkChecker.Models;
+using HtmlAgilityPack;
 
 namespace Diplo.LinkChecker.Services
 {
+    /// <summary>
+    /// A service for parsing HTML for specific elements (currently "links")
+    /// </summary>
     public class HtmlParsingService
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HtmlParsingService"/> class from the base URL of the site
+        /// </summary>
+        /// <param name="baseUri">The base URI of the site being checked</param>
         public HtmlParsingService(Uri baseUri)
         {
+            if (baseUri == null)
+            {
+                throw new ArgumentNullException("The base URL of the site being checked cannot be null");
+            }
+
             this.BaseUri = baseUri;
         }
 
@@ -20,8 +32,16 @@ namespace Diplo.LinkChecker.Services
 
         private static string[] InvalidProtocols = { "mailto:", "ftp:", "tel:" };
 
+        /// <summary>
+        /// Get the base URL of the site being checked
+        /// </summary>
         public Uri BaseUri { get; private set; }
 
+        /// <summary>
+        /// Gets the links from HTML document to check. These could be hyperlinks, images, JavaScript assets etc.
+        /// </summary>
+        /// <param name="html">The HTML to parse</param>
+        /// <returns>Yields the links that are parsed</returns>
         public IEnumerable<Link> GetLinksFromHtmlDocument(string html)
         {
             if (String.IsNullOrEmpty(html))

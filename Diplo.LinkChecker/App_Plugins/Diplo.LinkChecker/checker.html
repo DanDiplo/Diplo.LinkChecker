@@ -105,7 +105,7 @@
                                                 </thead>
                                                 <tbody>
                                                     <tr ng-repeat="link in page.CheckedLinks" ng-show="((onlyErrors && !link.IsSuccessCode) || !onlyErrors) && ((hideCheckedPreviously && !link.CheckedPreviously) || !hideCheckedPreviously)">
-                                                        <td><a href ng-click="openDetail(link, page)">{{ link.Url }}</a></td>
+                                                        <td><a href ng-click="openDetail(link, page)">{{ link.Url | limitTo: 100 }}</a></td>
                                                         <td>{{ link.Type }}</td>
                                                         <td>{{link.StatusCode }} {{ link.Status }}</td>
                                                         <td><span ng-class="{ 'label label-success' : link.IsSuccessCode, 'label label-error' : !link.IsSuccessCode }"><i ng-class="{ 'icon-check' : link.IsSuccessCode, 'icon-alert' : !link.IsSuccessCode }"></i></span></td>

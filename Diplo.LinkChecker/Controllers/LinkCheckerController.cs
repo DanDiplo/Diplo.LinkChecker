@@ -46,7 +46,10 @@ namespace Diplo.LinkChecker.Controllers
             HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)));
             var links = parser.GetLinksFromHtmlDocument(html);
 
-            page.CheckedLinks = await checker.CheckLinks(links);
+            if (links != null && links.Any())
+            {
+                page.CheckedLinks = await checker.CheckLinks(links);
+            }
 
             return page;
         }
@@ -71,7 +74,7 @@ namespace Diplo.LinkChecker.Controllers
                 throw new ArgumentOutOfRangeException("No node could be found with an id of " + id);
             }
 
-            return startNode.DescendantsOrSelf().Select(n => n.Id);
+            return startNode.DescendantsOrSelf().Where(n => n.TemplateId > 0).Select(n => n.Id);
         }
     }
 }

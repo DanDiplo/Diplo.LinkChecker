@@ -26,8 +26,6 @@ angular.module("umbraco")
     
         var checkIds = function (data) {
 
-            console.log(data);
-
             $scope.progress = 0;
             $scope.checkedPages = [];
             $scope.buttonText = "Checking...";
@@ -39,12 +37,19 @@ angular.module("umbraco")
             $scope.finishMessage = "";
             $scope.errorMessage = "";
 
+            var cnt = 1;
+
             $http.get(getIdsToCheckUrl + data.id).
                 success(function (data, status, headers, config) {
 
                     var dataLength = data.length;
-                    var cnt = 1;
-                  
+
+                    if (dataLength < 1) {
+                        $scope.finishMessage = "<p class=\"alert\">No pages (that have a template) where found to check!</p>";
+                        $scope.buttonText = "Start Check";
+                        return;
+                    }
+
                     for (var i = 0; i < data.length; i++) {
 
                         $http.get(checkLinksUrl + data[i]).
@@ -58,7 +63,7 @@ angular.module("umbraco")
                               $scope.pageCnt++;
 
                               $scope.checkedPages.push(data);
-                              $scope.progress = calculateProgress(i, dataLength);
+                              $scope.progress = calculateProgress(cnt, dataLength);
 
                               $scope.finished = (cnt++ === dataLength);
 
@@ -74,15 +79,17 @@ angular.module("umbraco")
                           }).
                           error(function (datax, status, headers, config) {
                               $scope.pageCnt++;
-                              $scope.errorMessage = status + ". " + datax.Message + "\n" + datax.ExceptionMessage;
+                              cnt++;
+                              //$scope.errorMessage = status + ". " + datax.Message + "\n" + datax.ExceptionMessage;
                               console.log(datax);
                           });
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    $scope.errorMessage = "Fatal Error! " + status + ". Unable to retrieve pages from Umbraco to check!";
+                    //$scope.errorMessage = "Fatal Error! " + status + ". Unable to retrieve pages from Umbraco to check!";
                     $scope.buttonText = "Start Check";
                     console.log(data);
+                    cnt++;
                 });
 
         }

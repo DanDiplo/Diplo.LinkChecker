@@ -7,54 +7,22 @@ using Umbraco.Core.Models;
 
 namespace Diplo.LinkChecker.Models
 {
+    /// <summary>
+    /// Represents an Umbraco page that can be checked
+    /// </summary>
     public class CheckedPage : CheckedItem
     {
-        public int Id { get; set; }
-
-        public string Name { get; set; }
-
-        public DateTime UpdateDate { get; set; }
-
-        public string UpdateUser { get; set; }
-
-        public string Url { get; set; }
-
-        public IEnumerable<Link> CheckedLinks { get; set; }
-
-        public int LinksCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Count();
-            }
-        }
-
-        public int ErrorCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Where(x => !x.IsSuccessCode).Count();
-            }
-        }
-
-        public int SuccessCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Where(x => x.IsSuccessCode).Count();
-            }
-        }
-
-        public bool HasErrors 
-        {
-            get
-            {
-                return this.CheckedLinks.Any(x => !x.IsSuccessCode);
-            }
-        }
-
+        /// <summary>
+        /// Instantiate a new page to check from Umbraco content
+        /// </summary>
+        /// <param name="content">The content to instantiate the page from</param>
         public CheckedPage(IPublishedContent content)
         {
+            if (content == null)
+            {
+                throw new ArgumentNullException("The Umbraco content page to check was null");
+            }
+
             this.CheckedLinks = Enumerable.Empty<Link>();
 
             this.Id = content.Id;
@@ -63,5 +31,81 @@ namespace Diplo.LinkChecker.Models
             this.UpdateUser = content.WriterName;
             this.Url = content.Url;
         }
+
+        /// <summary>
+        /// Get or set the Id of the page being checked
+        /// </summary>
+        public int Id { get; set; }
+
+        /// <summary>
+        /// Get or set the name of the page being checked
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Get or set the date the page being checked was last updated
+        /// </summary>
+        public DateTime UpdateDate { get; set; }
+
+        /// <summary>
+        /// Get or set the user name of the person who last updated the page being checked
+        /// </summary>
+        public string UpdateUser { get; set; }
+
+        /// <summary>
+        /// Get or set the URL of the page being checked
+        /// </summary>
+        public string Url { get; set; }
+
+        /// <summary>
+        /// Get or set the list of links within the page to be checked
+        /// </summary>
+        public IEnumerable<Link> CheckedLinks { get; set; }
+
+        /// <summary>
+        /// Get a count of how many links in this page have been checked
+        /// </summary>
+        public int LinksCount 
+        {
+            get
+            {
+                return this.CheckedLinks.Count();
+            }
+        }
+
+        /// <summary>
+        /// Get a count of how many links returned an error code
+        /// </summary>
+        public int ErrorCount 
+        {
+            get
+            {
+                return this.CheckedLinks.Where(x => !x.IsSuccessCode).Count();
+            }
+        }
+
+        /// <summary>
+        /// Get a count of how many links returned a success code
+        /// </summary>
+        public int SuccessCount 
+        {
+            get
+            {
+                return this.CheckedLinks.Where(x => x.IsSuccessCode).Count();
+            }
+        }
+
+        /// <summary>
+        /// Get whether any of the links raised an error
+        /// </summary>
+        public bool HasErrors 
+        {
+            get
+            {
+                return this.CheckedLinks.Any(x => !x.IsSuccessCode);
+            }
+        }
+
+ 
     }
 }
