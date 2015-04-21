@@ -28,7 +28,7 @@ angular.module("umbraco")
 
             $scope.progress = 0;
             $scope.checkedPages = [];
-            $scope.buttonText = "Checking...";
+            $scope.buttonText = "Checking ...";
             $scope.startNodeName = data.name;
             $scope.startNodeIcon = data.icon;
             $scope.finished = false;
