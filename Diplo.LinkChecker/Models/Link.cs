@@ -51,7 +51,7 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get the type of link this is eg. "Hyperlink" or "Resource"
         /// </summary>
-        public string Type 
+        public string LinkType 
         {
             get
             {
@@ -71,9 +71,30 @@ namespace Diplo.LinkChecker.Models
         }
 
         /// <summary>
+        /// Gets the friendly content-type name
+        /// </summary>
+        public string TypeName
+        {
+            get
+            {
+                if (String.IsNullOrEmpty(this.ContentType))
+                {
+                    return String.Empty;
+                }
+
+                string type;
+                if (!ContentTypeMap.TryGetValue(this.ContentType, out type))
+                {
+                    type = this.ContentType.Substring(0, this.ContentType.IndexOf('/')).ToFirstUpper();
+                }
+
+                return type;
+            }
+        }
+
+        /// <summary>
         /// Returns a string representation of this link
         /// </summary>
-        /// <returns>
         public override string ToString()
         {
             return String.Format("Url: {0}, Text: {1}, Tag: {2}, Attribute: {3}, Internal?: {4}, Position: ({5},{6})", this.Url, this.Text, this.TagName, this.Attribute, this.Internal, this.Line, this.Column);
@@ -82,7 +103,7 @@ namespace Diplo.LinkChecker.Models
         private static Dictionary<string, string> TagNameMap = new Dictionary<string, string>()
         {
             { "link", "Resource" },
-            { "script", "JavaScript" },
+            { "script", "Script" },
             { "img", "Image" },
             { "a", "Hyperlink" },
             { "audio", "Audio" },
@@ -91,8 +112,51 @@ namespace Diplo.LinkChecker.Models
             { "video", "Video" },
             { "form", "Form" },
             { "iframe", "iFrame" },
-            { "area", "Area" },
+            { "area", "Area Shape" },
             { "base", "Base URL"}
         };
+
+        private static Dictionary<string, string> ContentTypeMap = new Dictionary<string, string>()
+        {
+            { "application/atom+xml", "Atom Feed" },
+            { "application/javascript", "JavaScript" },
+            { "application/pdf", "PDF Document" },
+            { "application/rss+xml", "RSS Feed" },
+            { "application/font-woff", "Web Font" },
+            { "application/xml", "XML Document" },
+            { "image/gif", "GIF Image" },
+            { "image/jpeg", "JPEG Image" },
+            { "image/png", "PNG Image" },
+            { "image/svg+xml", "SVG Vector Image" },
+            { "image/bmp", "Bitmap Image" },
+            { "text/css", "Cascading Style Sheet"},
+            { "text/html", "HTML Page"},
+            { "text/plain", "Plain Text File"},
+            { "text/rtf", "Rich Text File"},
+            { "video/mpeg", "MPEG 1 Video"},
+            { "video/mp4", "MP4 Video"},
+            { "video/x-flv", "Flash Vidoe"},
+            { "application/x-shockwave-flash", "Flash Movie"},
+            { "application/vnd.ms-excel", "Microsoft Excel"},
+            { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Microsoft Excel"},
+            { "application/vnd.ms-powerpoint", "Microsoft Powerpoint"},
+            { "application/vnd.openxmlformats-officedocument.presentationml.presentation", "Microsoft Powerpoint"},
+            { "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "Microsoft Word"},
+            { "audio/mpeg", "MP3 Audio"},
+            { "audio/mp4", "MP4 Audio"},
+            { "application/xhtml+xml", "XHTML Page"},
+            { "application/zip", "ZIP Archive"},
+            { "application/msword", "Microsoft Word"},
+            { "application/vnd.ms-project", "Microsoft Project"},
+            { "image/x-icon", "Icon Image"},
+            { "video/quicktime", "QuickTime Video"},
+            { "application/octet-stream", "Binary File"},
+            { "video/h264", "H264 Video"},
+            { "text/calendar", "Calendar Event" },
+            { "application/x-silverlight-app", "Microsoft Silverlight" },
+            { "video/x-ms-wmv", "Windows Media" }
+
+        };
+
     }
 }

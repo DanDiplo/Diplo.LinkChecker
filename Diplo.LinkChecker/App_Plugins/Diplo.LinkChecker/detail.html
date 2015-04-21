@@ -33,16 +33,20 @@
                 <th>Status</th>
                 <td><span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span> {{ dialogData.Status }}</td>
             </tr>
-            <tr>
+            <tr ng-show="httpCode.description.length > 0">
                 <th>Explanation</th>
                 <td><a ng-href="{{ httpCode.spec_href }}" target="_blank" title="{{ httpCode.spec_title }}">{{ httpCode.description }}</a></td>
             </tr>
-            <tr>
-                <th>Type</th>
-                <td>{{ dialogData.Type }} ({{ dialogData.TagName}} {{ dialogData.Attribute }}) - {{ dialogData.ContentType }}</td>
+            <tr ng-show="dialogData.ContentType.length > 0">
+                <th>Content Checked</th>
+                <td><span title="{{ dialogData.ContentType }}">{{ dialogData.TypeName }}</span></td>
             </tr>
             <tr>
-                <th>Text</th>
+                <th>Link Type</th>
+                <td>{{ dialogData.LinkType }} ({{ dialogData.TagName}} {{ dialogData.Attribute }}) </td>
+            </tr>
+            <tr ng-show="dialogData.Text.length > 0">
+                <th>Link Text</th>
                 <td title="The link text">{{ dialogData.Text }}</td>
             </tr>
             <tr>

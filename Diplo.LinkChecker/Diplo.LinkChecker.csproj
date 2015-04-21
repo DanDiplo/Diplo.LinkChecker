@@ -199,9 +199,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="App_Plugins\Diplo.LinkChecker\package.manifest" />
     <None Include="packages.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="App_Plugins\Diplo.LinkChecker\checker.css" />
+    <Content Include="App_Plugins\Diplo.LinkChecker\checker.html" />
+    <Content Include="App_Plugins\Diplo.LinkChecker\detail.html" />
+    <Content Include="App_Plugins\Diplo.LinkChecker\Diplo.LinkCheckerController.js" />
+    <Content Include="App_Plugins\Diplo.LinkChecker\HttpStatusCodes.js" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>xcopy /y "$(ProjectDir)$(OutDir)$(TargetFileName)" "$(SolutionDir)\Umbraco7.2.4\bin"
