@@ -26,12 +26,18 @@ namespace Diplo.LinkChecker.Services
         public TimeSpan CachePeriod { get; set; }
 
         /// <summary>
+        /// Gets or sets the timout of HTTP requests (default is 30 seconds)
+        /// </summary>
+        public TimeSpan Timeout { get; set; }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="HttpCheckerService"/> class with the default settings
         /// </summary>
         public HttpCheckerService()
         {
             this.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
             this.CachePeriod = TimeSpan.FromMinutes(1);
+            this.Timeout = TimeSpan.FromSeconds(30);
         }
 
         /// <summary>
@@ -53,6 +59,7 @@ namespace Diplo.LinkChecker.Services
             using (HttpClient client = new HttpClient())
             {
                 client.DefaultRequestHeaders.Add("user-agent", this.UserAgent);
+                client.Timeout = this.Timeout;
 
                 using (var message = new HttpRequestMessage(HttpMethod.Get, url))
                 {
@@ -60,7 +67,7 @@ namespace Diplo.LinkChecker.Services
                     {
                         response.EnsureSuccessStatusCode();
 
-                        if (response.Content.Headers.ContentType.MediaType == "text/html")
+                        if (response.Content.Headers.ContentType != null && response.Content.Headers.ContentType.MediaType == "text/html")
                         {
                             if (response.IsSuccessStatusCode)
                             {
@@ -94,6 +101,7 @@ namespace Diplo.LinkChecker.Services
             using (HttpClient client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("user-agent", this.UserAgent);
+                client.Timeout = this.Timeout;
 
                 IEnumerable<Task<Link>> checkUrlsQuery =
                     from item in itemsToCheck select CheckUrl(client, item);

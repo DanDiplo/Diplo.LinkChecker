@@ -6,23 +6,42 @@ angular.module("umbraco")
         var checkLinksUrl = baseApiUrl + "CheckPage/";
         var getIdsToCheckUrl = baseApiUrl + "GetIdsToCheck/";
         var dialog;
+        $scope.config = {};
 
-        $scope.buttonText = "Start Check";
-        $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
-        $scope.errorMessage = "";
-        $scope.onlyErrors = false;
+        $http.get('/App_Plugins/Diplo.LinkChecker/config.js').success(function (data) {
+            $scope.config = data[0];
+            initialise();
+        }).
+        error(function () {
+            $scope.config.timeout = 30;
+            $scope.config.onlyShowErrors = false;
+            $scope.config.checkEntireDocument = false;
+            $scope.config.hideRecentlyChecked = false;
+            console.log("Couldn't load config.js - dropping back to defaults...");
+            initialise();
+        });
 
-        $scope.startCheck = function () {
-            $scope.showStartMessage = true;
-            $scope.startNodeName = null;
-            dialogService.contentPicker({
-                multiPicker: false,
-                callback: function (data) {
-                    checkIds(data);
-                }
-            });
-        }
+        var initialise = function () {
 
+            console.log($scope.config);
+
+            console.log($scope.config.onlyShowErrors);
+
+            $scope.buttonText = "Start Check";
+            $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
+            $scope.errorMessage = "";
+
+            $scope.startCheck = function () {
+                $scope.showStartMessage = true;
+                $scope.startNodeName = null;
+                dialogService.contentPicker({
+                    multiPicker: false,
+                    callback: function (data) {
+                        checkIds(data);
+                    }
+                });
+            }
+        };
     
         var checkIds = function (data) {
 

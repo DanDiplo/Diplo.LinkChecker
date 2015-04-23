@@ -30,7 +30,12 @@ namespace Diplo.LinkChecker.Services
 
         private static Regex MatchProtocolRegex = new Regex(@"^\w{3,8}://*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static string[] InvalidProtocols = { "mailto:", "ftp:", "tel:" };
+        private static readonly string[] InvalidProtocols = { "mailto:", "ftp:", "tel:", "ldap://", "ftp://", "mms://", "news:", "nntp://", "sftp://", "ssh://", "telnet://", "udp://", "javascript:" };
+
+        /// <summary>
+        /// If true then only considers the main document body, otherwise uses entire HTML document
+        /// </summary>
+        public bool OnlyCheckBody { get; set; }
 
         /// <summary>
         /// Get the base URL of the site being checked
@@ -57,7 +62,11 @@ namespace Diplo.LinkChecker.Services
                 yield break;
             }
 
-            foreach (HtmlNode node in doc.DocumentNode.SelectNodes("//*[@src or @href]"))
+            string xPath = this.OnlyCheckBody ? "//body//*[@src or @href]" : "//*[@src or @href]";
+
+            var linkNodes = doc.DocumentNode.SelectNodes(xPath);
+
+            foreach (HtmlNode node in linkNodes)
             {
                 HtmlAttribute source;
                 string attribute;
