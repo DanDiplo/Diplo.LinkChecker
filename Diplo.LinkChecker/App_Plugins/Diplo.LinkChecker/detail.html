@@ -43,7 +43,7 @@
             </tr>
             <tr>
                 <th>Link Type</th>
-                <td>{{ dialogData.LinkType }} ({{ dialogData.TagName}} {{ dialogData.Attribute }}) </td>
+                <td>{{ dialogData.LinkType }} ({{ dialogData.TagName}} {{ dialogData.Attribute }})</td>
             </tr>
             <tr ng-show="dialogData.Text.length > 0">
                 <th>Link Text</th>
@@ -52,6 +52,10 @@
             <tr>
                 <th>Page</th>
                 <td title="Id: {{ dialogData.page.Id }}">{{ dialogData.page.Name }}</td>
+            </tr>
+            <tr>
+                <th>Host</th>
+                <td>{{ dialogData.Host }} ({{ dialogData.IsInternal == true ? "Internal" : "External" }})</td>
             </tr>
             <tr>
                 <th>Position</th>

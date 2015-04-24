@@ -41,7 +41,7 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get or set whether this was an internal link being checked
         /// </summary>
-        public bool Internal { get; set; }
+        public bool IsInternal { get; set; }
 
         /// <summary>
         /// Get or set whether this link has been checked recently
@@ -97,7 +97,7 @@ namespace Diplo.LinkChecker.Models
         /// </summary>
         public override string ToString()
         {
-            return String.Format("Url: {0}, Text: {1}, Tag: {2}, Attribute: {3}, Internal?: {4}, Position: ({5},{6})", this.Url, this.Text, this.TagName, this.Attribute, this.Internal, this.Line, this.Column);
+            return String.Format("Url: {0}, Text: {1}, Tag: {2}, Attribute: {3}, Internal?: {4}, Position: ({5},{6})", this.Url, this.Text, this.TagName, this.Attribute, this.IsInternal, this.Line, this.Column);
         }
 
         private static Dictionary<string, string> TagNameMap = new Dictionary<string, string>()

@@ -29,7 +29,7 @@ namespace Diplo.LinkChecker.Models
             this.Name = content.Name;
             this.UpdateDate = content.UpdateDate;
             this.UpdateUser = content.WriterName;
-            this.Url = content.Url;
+            this.Url = new Uri(content.Url, UriKind.RelativeOrAbsolute).ToString();
         }
 
         /// <summary>

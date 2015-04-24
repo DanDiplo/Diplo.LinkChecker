@@ -131,7 +131,7 @@ namespace Diplo.LinkChecker.Services
             if (existing != null)
             {
                 existing.CheckedPreviously = true;
-                return existing;
+                //return existing;
             }
 
             try
@@ -143,7 +143,7 @@ namespace Diplo.LinkChecker.Services
                         link.Status = response.ReasonPhrase;
                         link.StatusCode = ((int)response.StatusCode).ToString();
                         link.IsSuccessCode = response.IsSuccessStatusCode;
-                        link.ContentType = response.Content.Headers.ContentType.MediaType;
+                        link.ContentType = response.Content.Headers.ContentType != null ? response.Content.Headers.ContentType.MediaType : String.Empty;
 
                         MemoryCache.Default.Add(link.Url.AbsoluteUri, link, DateTime.Now.Add(this.CachePeriod));
                     }
@@ -151,25 +151,22 @@ namespace Diplo.LinkChecker.Services
             }
             catch (HttpRequestException ex)
             {
+                link.Status = ex.Message;
+
                 if (ex.InnerException != null && ex.InnerException is WebException)
                 {
-                    link.Status = ex.Message;
-
                     var webEx = ex.InnerException as WebException;
 
                     if (webEx != null)
                     {
-                        link.Status += " " + webEx.Message;
+                        link.Error = webEx.Message;
                     }
-                }
-                else
-                {
-                    link.Error = ex.Message;
                 }
             }
             catch (Exception ex)
             {
-                link.Error = link.Status = ex.Message;
+                link.Status = "ERROR";
+                link.Error = ex.Message;
             }
 
             return link;

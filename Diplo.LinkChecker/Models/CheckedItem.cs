@@ -18,6 +18,17 @@ namespace Diplo.LinkChecker.Models
         public Uri Url { get; set; }
 
         /// <summary>
+        /// Get the host
+        /// </summary>
+        public string Host 
+        {
+            get
+            {
+                return this.Url != null ? this.Url.Host : String.Empty;
+            }
+        }
+
+        /// <summary>
         /// Get or set the status of the link eg. Not Found
         /// </summary>
         public string Status { get; set; }

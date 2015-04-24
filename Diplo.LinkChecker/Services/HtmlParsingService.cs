@@ -101,7 +101,7 @@ namespace Diplo.LinkChecker.Services
                             link.Column = source.LinePosition;
                             link.Attribute = attribute;
                             link.TagName = node.Name;
-                            link.Internal = !MatchProtocolRegex.IsMatch(source.Value);
+                            link.IsInternal = !MatchProtocolRegex.IsMatch(source.Value);
 
                             yield return link;
                         }
