@@ -73,7 +73,7 @@
     </div>
 
 
-    <div ng-repeat="page in checkedPages" ng-show="(page.ErrorCount > 0 && onlyErrors) || !onlyErrors">
+    <div ng-repeat="page in checkedPages" ng-show="(page.ErrorCount > 0 && config.onlyShowErrors) || !config.onlyShowErrors">
 
         <div class="panel panel-default">
 

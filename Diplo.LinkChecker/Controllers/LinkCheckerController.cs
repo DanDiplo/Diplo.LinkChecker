@@ -23,12 +23,14 @@ namespace Diplo.LinkChecker.Controllers
         /// Checks all the links in the page with the given node Id
         /// </summary>
         /// <param name="id">The Id of the node to check</param>
+        /// <param name="checkEntireDocument">If false only checks the HTML page BODY; otherwise checks entire page (default is false)</param>
+        /// <param name="timeout">The timeout period (in seconds) before the checker abandons trying to connect to a server</param>
         /// <returns>A list of checked links</returns>
         /// <remarks>
         /// /Umbraco/Backoffice/Api/LinkChecker/CheckPage/1073
         /// </remarks>
         [HttpGet]
-        public async Task<CheckedPage> CheckPage(int id)
+        public async Task<CheckedPage> CheckPage(int id, bool checkEntireDocument = false, int timeout = 30)
         {
             var node = Umbraco.TypedContent(id);
 
@@ -37,14 +39,20 @@ namespace Diplo.LinkChecker.Controllers
                 throw new ArgumentOutOfRangeException("No node could be found with an id of " + id);
             }
 
+            if (timeout < 1)
+            {
+                timeout = 1;
+            }
+
             CheckedPage page = new CheckedPage(node);
 
             HttpCheckerService checker = new HttpCheckerService();
+            checker.Timeout = TimeSpan.FromSeconds(timeout);
 
             string html = await checker.GetHtmlFromUrl(new Uri(node.UrlAbsolute()));
 
             HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)));
-            parser.OnlyCheckBody = true;
+            parser.CheckEntireDocument = checkEntireDocument;
 
             var links = parser.GetLinksFromHtmlDocument(html);
 
@@ -67,8 +75,6 @@ namespace Diplo.LinkChecker.Controllers
         [HttpGet]
         public IEnumerable<int> GetIdsToCheck(int id)
         {
-            // 1073 = home
-
             var startNode = Umbraco.TypedContent(id);
 
             if (startNode == null)

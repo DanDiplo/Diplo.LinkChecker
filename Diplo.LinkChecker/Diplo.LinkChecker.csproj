@@ -190,6 +190,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Controllers\LinkCheckerController.cs" />
+    <Compile Include="Helpers\ContentMapHelper.cs" />
     <Compile Include="Models\CheckedItem.cs" />
     <Compile Include="Models\CheckedPage.cs" />
     <Compile Include="Models\Link.cs" />

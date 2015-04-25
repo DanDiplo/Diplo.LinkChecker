@@ -31,7 +31,9 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td><span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span> {{ dialogData.Status }}</td>
+                <td><span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span> 
+                    {{ dialogData.Status }} {{ dialogData.Error }}
+                </td>
             </tr>
             <tr ng-show="httpCode.description.length > 0">
                 <th>Explanation</th>

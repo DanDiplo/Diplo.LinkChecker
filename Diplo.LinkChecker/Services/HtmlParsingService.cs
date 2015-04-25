@@ -33,9 +33,9 @@ namespace Diplo.LinkChecker.Services
         private static readonly string[] InvalidProtocols = { "mailto:", "ftp:", "tel:", "ldap://", "ftp://", "mms://", "news:", "nntp://", "sftp://", "ssh://", "telnet://", "udp://", "javascript:" };
 
         /// <summary>
-        /// If true then only considers the main document body, otherwise uses entire HTML document
+        /// If true then parses the entire HTML document, otherwise just checks the BODY section
         /// </summary>
-        public bool OnlyCheckBody { get; set; }
+        public bool CheckEntireDocument { get; set; }
 
         /// <summary>
         /// Get the base URL of the site being checked
@@ -62,7 +62,7 @@ namespace Diplo.LinkChecker.Services
                 yield break;
             }
 
-            string xPath = this.OnlyCheckBody ? "//body//*[@src or @href]" : "//*[@src or @href]";
+            string xPath = this.CheckEntireDocument ? "//*[@src or @href]" : "//body//*[@src or @href]";
 
             var linkNodes = doc.DocumentNode.SelectNodes(xPath);
 

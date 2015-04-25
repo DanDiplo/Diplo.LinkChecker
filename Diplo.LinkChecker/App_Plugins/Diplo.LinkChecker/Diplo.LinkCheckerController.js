@@ -25,8 +25,6 @@ angular.module("umbraco")
 
             console.log($scope.config);
 
-            console.log($scope.config.onlyShowErrors);
-
             $scope.buttonText = "Start Check";
             $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
             $scope.errorMessage = "";
@@ -71,7 +69,11 @@ angular.module("umbraco")
 
                     for (var i = 0; i < data.length; i++) {
 
-                        $http.get(checkLinksUrl + data[i]).
+                        $http({
+                            url: checkLinksUrl + data[i],
+                            method: "GET",
+                            params: { checkEntireDocument: $scope.config.checkEntireDocument, timeout: $scope.config.timeout }
+                        }).
                           success(function (data, status, headers, config) {
 
                               //console.log(data);
