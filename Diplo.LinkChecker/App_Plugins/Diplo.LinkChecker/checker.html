@@ -5,7 +5,7 @@
         <div class="panel panel-default">
 
             <div class="panel-heading">
-                <h3><i class="icon-link"></i>Link Checker <small>v1.0</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced"><i class="icon-settings"></i></a></span></h3>
+                <h3><i class="icon-link"></i>Link Checker <small>v1.0</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
             </div>
 
             <div class="alert alert-error" ng-show="errorMessage.length > 0">
@@ -44,14 +44,10 @@
                 <div id="collapseAdvanced" class="accordion-body collapse out">
                     <div class="row form-inline" style="padding-top: 20px">
                         <div class="span3">
-                            <label title="Tick to hide links that have been checked within the last minute">
-                                <input type="checkbox" ng-model="config.hideCheckedPreviously" /> Hide recently checked</label> 
-                        </div>
-                        <div class="span3">
                             <label title="Tick to check entire document, include header; otherwise just checks main body">
                                 <input type="checkbox" ng-model="config.checkEntireDocument" /> Check entire document</label>
                         </div>
-                        <div class="span6">
+                        <div class="span3">
                             <label for="http-timeout" title="Set how long to wait before deciding that a link has timed out">Timeout </label>
                             <input id="http-timeout" type="number" ng-model="config.timeout" class="input-mini" /> secs
                         </div>
@@ -122,8 +118,8 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="link in page.CheckedLinks" ng-show="((onlyErrors && !link.IsSuccessCode) || !onlyErrors) && ((hideCheckedPreviously && !link.CheckedPreviously) || !hideCheckedPreviously)">
-                                                    <td><a href ng-click="openDetail(link, page)">{{ link.Url | limitTo: 100 }}</a></td>
+                                                <tr ng-repeat="link in page.CheckedLinks" ng-show="(config.onlyShowErrors && !link.IsSuccessCode) || !config.onlyShowErrors">
+                                                    <td><a href ng-click="openDetail(link, page)">{{ link.Url | limitTo: 70 }}</a></td>
                                                     <td>{{ link.TypeName }}</td>
                                                     <td>{{link.StatusCode }} {{ link.Status }}</td>
                                                     <td><span ng-class="{ 'label label-success' : link.IsSuccessCode, 'label label-error' : !link.IsSuccessCode }"><i ng-class="{ 'icon-check' : link.IsSuccessCode, 'icon-alert' : !link.IsSuccessCode }"></i></span></td>

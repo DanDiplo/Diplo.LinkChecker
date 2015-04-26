@@ -131,7 +131,7 @@ namespace Diplo.LinkChecker.Services
             if (existing != null)
             {
                 existing.CheckedPreviously = true;
-                //return existing;
+                return existing;
             }
 
             try
