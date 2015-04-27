@@ -2,6 +2,7 @@
       {
           "timeout": 30,                        
           "onlyShowErrors": false,              
-          "checkEntireDocument": false    
+          "checkEntireDocument": false,
+          "showSearchBox" : false
       }
 ]

@@ -16,6 +16,7 @@ angular.module("umbraco")
             $scope.config.timeout = 30;
             $scope.config.onlyShowErrors = false;
             $scope.config.checkEntireDocument = false;
+            $scope.config.showSearchBox = false;
             console.log("Couldn't load config.js - dropping back to defaults...");
             initialise();
         });

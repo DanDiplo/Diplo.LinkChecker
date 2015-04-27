@@ -1,7 +1,6 @@
 ﻿<div ng-controller="Diplo.LinkCheckerController" id="detail-dialogue">
 
     <div>
-
         <div class="panel panel-default">
 
             <div class="panel-heading">
@@ -45,19 +44,24 @@
                     <div class="row form-inline" style="padding-top: 20px">
                         <div class="span3">
                             <label title="Tick to check entire document, include header; otherwise just checks main body">
-                                <input type="checkbox" ng-model="config.checkEntireDocument" /> Check entire document</label>
+                                <input type="checkbox" ng-model="config.checkEntireDocument" />
+                                Check entire document</label>
                         </div>
                         <div class="span3">
                             <label for="http-timeout" title="Set how long to wait before deciding that a link has timed out">Timeout </label>
-                            <input id="http-timeout" type="number" ng-model="config.timeout" class="input-mini" /> secs
+                            <input id="http-timeout" type="number" ng-model="config.timeout" class="input-mini" />
+                            secs
+                        </div>
+                        <div class="span3">
+                            <label title="Tick to allow searching of links">
+                                <input type="checkbox" ng-model="config.showSearchBox" />
+                                Show search box</label>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-
-        <br />
         <div class="progress progress-striped" title="{{ progress }} %">
             <div class="bar" ng-style="{ width: progress + '%' }"></div>
         </div>
@@ -100,13 +104,20 @@
                     <div class="accordion-group">
 
                         <div class="accordion-heading">
-                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{$index}}" href="#collapse{{$index}}">View Results</a>
+                            <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-{{$index}}" href="#collapse{{$index}}">View Results </a>
                         </div>
 
                         <div id="collapse{{$index}}" class="accordion-body collapse out">
                             <div class="accordion-inner">
                                 <div class="row">
                                     <div class="span12">
+
+                                        <div class="text-right" ng-show="config.showSearchBox">
+                                            <div class="input-prepend">
+                                                <span class="add-on"><i class="icon-search"></i></span>
+                                                <input type="search" ng-model="searchText" placeholder="Search">
+                                            </div>
+                                        </div>
 
                                         <table class="table table-condensed table-striped">
                                             <thead>
@@ -118,7 +129,7 @@
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr ng-repeat="link in page.CheckedLinks" ng-show="(config.onlyShowErrors && !link.IsSuccessCode) || !config.onlyShowErrors">
+                                                <tr ng-repeat="link in page.CheckedLinks | filter:searchText" ng-show="(config.onlyShowErrors && !link.IsSuccessCode) || !config.onlyShowErrors">
                                                     <td><a href ng-click="openDetail(link, page)">{{ link.Url | limitTo: 70 }}</a></td>
                                                     <td>{{ link.TypeName }}</td>
                                                     <td>{{link.StatusCode }} {{ link.Status }}</td>
