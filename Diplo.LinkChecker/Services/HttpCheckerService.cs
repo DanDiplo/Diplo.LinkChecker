@@ -16,9 +16,14 @@ namespace Diplo.LinkChecker.Services
     public class HttpCheckerService
     {
         /// <summary>
-        /// Get or set the user agent string used when making the HTTP requests
+        /// Gets or sets the user agent string when making internal (local) requests to get the Umbraco page content
         /// </summary>
-        public string UserAgent { get; set; }
+        public string InternalUserAgent { get; set; }
+
+        /// <summary>
+        /// Get or set the user agent string used when making external HTTP requests
+        /// </summary>
+        public string ExternalUserAgent { get; set; }
 
         /// <summary>
         /// Gets or sets the period to cache the status of checked links
@@ -35,7 +40,8 @@ namespace Diplo.LinkChecker.Services
         /// </summary>
         public HttpCheckerService()
         {
-            this.UserAgent = "Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; WOW64; Trident/6.0)";
+            this.InternalUserAgent = "Mozilla/5.0 (Diplo LinkChecker 1.0 for Umbraco)";
+            this.ExternalUserAgent = "Mozilla/5.0 (compatible; LinkChecker 1.0; MSIE 11.0; Windows NT 6.2; WOW64; Trident/6.0)";
             this.CachePeriod = TimeSpan.FromMinutes(1);
             this.Timeout = TimeSpan.FromSeconds(30);
         }
@@ -58,7 +64,7 @@ namespace Diplo.LinkChecker.Services
 
             using (HttpClient client = new HttpClient())
             {
-                client.DefaultRequestHeaders.Add("user-agent", this.UserAgent);
+                client.DefaultRequestHeaders.Add("user-agent", this.InternalUserAgent);
                 client.Timeout = this.Timeout;
 
                 using (var message = new HttpRequestMessage(HttpMethod.Get, url))
@@ -100,7 +106,7 @@ namespace Diplo.LinkChecker.Services
 
             using (HttpClient client = new HttpClient(handler))
             {
-                client.DefaultRequestHeaders.Add("user-agent", this.UserAgent);
+                client.DefaultRequestHeaders.Add("user-agent", this.ExternalUserAgent);
                 client.Timeout = this.Timeout;
 
                 IEnumerable<Task<Link>> checkUrlsQuery =

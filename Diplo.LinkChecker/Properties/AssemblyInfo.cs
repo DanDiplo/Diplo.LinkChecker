@@ -5,10 +5,10 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Diplo.LinkChecker")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("Diplo LinkChecker")]
+[assembly: AssemblyDescription("A link checker for Umbraco 7")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Diplodocus Squad")]
 [assembly: AssemblyProduct("Diplo.LinkChecker")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]

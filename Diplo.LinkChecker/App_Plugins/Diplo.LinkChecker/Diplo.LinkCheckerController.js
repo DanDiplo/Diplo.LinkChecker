@@ -23,8 +23,6 @@ angular.module("umbraco")
 
         var initialise = function () {
 
-            console.log($scope.config);
-
             $scope.buttonText = "Start Check";
             $scope.pageCnt = $scope.linksCheckedCnt = $scope.linksOkCnt = $scope.linksErrorCnt = 0;
             $scope.errorMessage = "";
@@ -76,8 +74,6 @@ angular.module("umbraco")
                         }).
                           success(function (data, status, headers, config) {
 
-                              //console.log(data);
-
                               $scope.linksCheckedCnt += data.LinksCount;
                               $scope.linksErrorCnt += data.ErrorCount;
                               $scope.linksOkCnt += data.SuccessCount;
@@ -107,7 +103,7 @@ angular.module("umbraco")
                     }
                 }).
                 error(function (data, status, headers, config) {
-                    //$scope.errorMessage = "Fatal Error! " + status + ". Unable to retrieve pages from Umbraco to check!";
+                    $scope.errorMessage = "Fatal Error! " + status + ". Unable to retrieve pages from Umbraco to check!";
                     $scope.buttonText = "Start Check";
                     console.log(data);
                     cnt++;
@@ -133,6 +129,18 @@ angular.module("umbraco")
             dialog = dialogService.open({
                 template: '/App_Plugins/Diplo.LinkChecker/detail.html',
                 dialogData: dialogData, show: true, width: 800
+            });
+        }
+
+        $scope.openHelp = function (link, page) {
+
+            if (dialog) {
+                dialog.close();
+            }
+
+            dialog = dialogService.open({
+                template: '/App_Plugins/Diplo.LinkChecker/help.html',
+                show: true, width: 800
             });
         }
     

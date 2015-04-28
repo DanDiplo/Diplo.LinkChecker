@@ -57,12 +57,15 @@
                                 <input type="checkbox" ng-model="config.showSearchBox" />
                                 Show search box</label>
                         </div>
+                        <div class="span3 text-right">
+                            <a href="" ng-click="openHelp()" style="font-size:26px" title="Help"><strong><i class="icon-help-alt"></i></strong></a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="progress progress-striped" title="{{ progress }} %">
+        <div class="progress progress-striped" title="{{ progress }} %" ng-show="progress > 0">
             <div class="bar" ng-style="{ width: progress + '%' }"></div>
         </div>
 
