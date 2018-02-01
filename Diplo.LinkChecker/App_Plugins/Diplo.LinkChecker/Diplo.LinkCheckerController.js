@@ -17,6 +17,7 @@ angular.module("umbraco")
             $scope.config.onlyShowErrors = false;
             $scope.config.checkEntireDocument = false;
             $scope.config.showSearchBox = false;
+            $scope.config.omitPortDuringChecks = false;
             console.log("Couldn't load config.js - dropping back to defaults...");
             initialise();
         });
@@ -70,7 +71,12 @@ angular.module("umbraco")
                         $http({
                             url: checkLinksUrl + data[i],
                             method: "GET",
-                            params: { checkEntireDocument: $scope.config.checkEntireDocument, timeout: $scope.config.timeout, hideDuplicates: $scope.config.hideDuplicates }
+                            params: { 
+                                checkEntireDocument: $scope.config.checkEntireDocument, 
+                                timeout: $scope.config.timeout, 
+                                hideDuplicates: $scope.config.hideDuplicates,
+                                omitPortDuringChecks: $scope.config.omitPortDuringChecks
+                            }
                         }).
                           success(function (data, status, headers, config) {
 
