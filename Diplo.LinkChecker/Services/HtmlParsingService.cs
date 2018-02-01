@@ -18,14 +18,12 @@ namespace Diplo.LinkChecker.Services
         /// Initializes a new instance of the <see cref="HtmlParsingService"/> class from the base URL of the site
         /// </summary>
         /// <param name="baseUri">The base URI of the site being checked</param>
-        public HtmlParsingService(Uri baseUri)
+        /// <param name="allowNonStandardPortInBaseUri">If true, when checking links found in a document, a non-standard port be omitted from the request.</param>
+        public HtmlParsingService(Uri baseUri, bool allowNonStandardPortInBaseUri = true)
         {
-            if (baseUri == null)
-            {
-                throw new ArgumentNullException("The base URL of the site being checked cannot be null");
-            }
+            if (baseUri == null) throw new ArgumentNullException("The base URL of the site being checked cannot be null");
 
-            this.BaseUri = baseUri;
+            this.BaseUri = allowNonStandardPortInBaseUri ? baseUri : new UriBuilder(baseUri) { Port = -1 }.Uri;
         }
 
         private static Regex MatchProtocolRegex = new Regex(@"^\w{3,8}://*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
