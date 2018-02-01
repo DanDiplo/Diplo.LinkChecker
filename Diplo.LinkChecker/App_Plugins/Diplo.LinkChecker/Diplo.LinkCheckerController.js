@@ -12,15 +12,15 @@ angular.module("umbraco")
             $scope.config = data[0];
             initialise();
         }).
-        error(function () {
-            $scope.config.timeout = 30;
-            $scope.config.onlyShowErrors = false;
-            $scope.config.checkEntireDocument = false;
-            $scope.config.showSearchBox = false;
-            $scope.config.omitPortDuringChecks = false;
-            console.log("Couldn't load config.js - dropping back to defaults...");
-            initialise();
-        });
+            error(function () {
+                $scope.config.timeout = 30;
+                $scope.config.onlyShowErrors = false;
+                $scope.config.checkEntireDocument = false;
+                $scope.config.showSearchBox = false;
+                $scope.config.omitPortDuringChecks = false;
+                console.log("Couldn't load config.js - dropping back to defaults...");
+                initialise();
+            });
 
         var initialise = function () {
 
@@ -37,9 +37,9 @@ angular.module("umbraco")
                         checkIds(data);
                     }
                 });
-            }
+            };
         };
-    
+
         var checkIds = function (data) {
 
             $scope.progress = 0;
@@ -71,41 +71,41 @@ angular.module("umbraco")
                         $http({
                             url: checkLinksUrl + data[i],
                             method: "GET",
-                            params: { 
-                                checkEntireDocument: $scope.config.checkEntireDocument, 
-                                timeout: $scope.config.timeout, 
+                            params: {
+                                checkEntireDocument: $scope.config.checkEntireDocument,
+                                timeout: $scope.config.timeout,
                                 hideDuplicates: $scope.config.hideDuplicates,
                                 omitPortDuringChecks: $scope.config.omitPortDuringChecks
                             }
                         }).
-                          success(function (data, status, headers, config) {
+                            success(function (data, status, headers, config) {
 
-                              $scope.linksCheckedCnt += data.LinksCount;
-                              $scope.linksErrorCnt += data.ErrorCount;
-                              $scope.linksOkCnt += data.SuccessCount;
-                              $scope.pageCnt++;
+                                $scope.linksCheckedCnt += data.LinksCount;
+                                $scope.linksErrorCnt += data.ErrorCount;
+                                $scope.linksOkCnt += data.SuccessCount;
+                                $scope.pageCnt++;
 
-                              $scope.checkedPages.push(data);
-                              $scope.progress = calculateProgress(cnt, dataLength);
+                                $scope.checkedPages.push(data);
+                                $scope.progress = calculateProgress(cnt, dataLength);
 
-                              $scope.finished = (cnt++ === dataLength);
+                                $scope.finished = (cnt++ === dataLength);
 
-                              if ($scope.finished) {
-                                  $scope.finishMessage = "Checked <strong>" + $scope.linksCheckedCnt + "</strong> links and found <strong>" + $scope.linksErrorCnt + "</strong> errors."
-                                  if ($scope.linksErrorCnt == 0) {
-                                      $scope.finishMessage += " <i class='icon-smiley-inverted'></i>";
-                                  }
+                                if ($scope.finished) {
+                                    $scope.finishMessage = "Checked <strong>" + $scope.linksCheckedCnt + "</strong> links and found <strong>" + $scope.linksErrorCnt + "</strong> errors.";
+                                    if ($scope.linksErrorCnt === 0) {
+                                        $scope.finishMessage += " <i class='icon-smiley-inverted'></i>";
+                                    }
 
-                                  notificationsService.success("Finished!", $scope.finishMessage);
-                                  $scope.buttonText = "Start Check";
-                              }
-                          }).
-                          error(function (datax, status, headers, config) {
-                              $scope.pageCnt++;
-                              cnt++;
-                              //$scope.errorMessage = status + ". " + datax.Message + "\n" + datax.ExceptionMessage;
-                              console.log(datax);
-                          });
+                                    notificationsService.success("Finished!", $scope.finishMessage);
+                                    $scope.buttonText = "Start Check";
+                                }
+                            }).
+                            error(function (datax, status, headers, config) {
+                                $scope.pageCnt++;
+                                cnt++;
+                                //$scope.errorMessage = status + ". " + datax.Message + "\n" + datax.ExceptionMessage;
+                                console.log(datax);
+                            });
                     }
                 }).
                 error(function (data, status, headers, config) {
@@ -115,11 +115,11 @@ angular.module("umbraco")
                     cnt++;
                 });
 
-        }
-      
+        };
+
 
         var calculateProgress = function (currentPage, totalPages) {
-            return parseInt((currentPage / totalPages) * 100)
+            return parseInt((currentPage / totalPages) * 100);
         };
 
 
@@ -136,7 +136,7 @@ angular.module("umbraco")
                 template: '/App_Plugins/Diplo.LinkChecker/detail.html',
                 dialogData: dialogData, show: true, width: 800
             });
-        }
+        };
 
         $scope.openHelp = function (link, page) {
 
@@ -148,6 +148,6 @@ angular.module("umbraco")
                 template: '/App_Plugins/Diplo.LinkChecker/help.html',
                 show: true, width: 800
             });
-        }
-    
+        };
+
     });

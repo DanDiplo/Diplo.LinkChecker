@@ -25,6 +25,7 @@ namespace Diplo.LinkChecker.Controllers
         /// <param name="id">The Id of the node to check</param>
         /// <param name="checkEntireDocument">If false only checks the HTML page BODY; otherwise checks entire page (default is false)</param>
         /// <param name="timeout">The timeout period (in seconds) before the checker abandons trying to connect to a server</param>
+        /// <param name="omitPortDuringChecks">Omits the port number when checking a page</param>
         /// <returns>A list of checked links</returns>
         /// <remarks>
         /// /Umbraco/Backoffice/Api/LinkChecker/CheckPage/1073

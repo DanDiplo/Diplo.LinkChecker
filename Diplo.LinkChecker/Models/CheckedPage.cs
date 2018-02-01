@@ -55,7 +55,7 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get or set the URL of the page being checked
         /// </summary>
-        public string Url { get; set; }
+        public new string Url { get; set; }
 
         /// <summary>
         /// Get or set the list of links within the page to be checked
