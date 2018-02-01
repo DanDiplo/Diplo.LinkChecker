@@ -30,7 +30,7 @@ namespace Diplo.LinkChecker.Controllers
         /// /Umbraco/Backoffice/Api/LinkChecker/CheckPage/1073
         /// </remarks>
         [HttpGet]
-        public async Task<CheckedPage> CheckPage(int id, bool checkEntireDocument = false, int timeout = 30)
+        public async Task<CheckedPage> CheckPage(int id, bool checkEntireDocument = false, int timeout = 30, bool omitPortDuringChecks = false)
         {
             var node = Umbraco.TypedContent(id);
 
@@ -51,7 +51,7 @@ namespace Diplo.LinkChecker.Controllers
 
             string html = await checker.GetHtmlFromUrl(new Uri(node.UrlAbsolute()));
 
-            HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)));
+            HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)), omitPortDuringChecks);
             parser.CheckEntireDocument = checkEntireDocument;
 
             var links = parser.GetLinksFromHtmlDocument(html);
