@@ -51,7 +51,7 @@ namespace Diplo.LinkChecker.Controllers
 
             string html = await checker.GetHtmlFromUrl(new Uri(node.UrlAbsolute()));
 
-            HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)), omitPortDuringChecks);
+            HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)), !omitPortDuringChecks);
             parser.CheckEntireDocument = checkEntireDocument;
 
             var links = parser.GetLinksFromHtmlDocument(html);
