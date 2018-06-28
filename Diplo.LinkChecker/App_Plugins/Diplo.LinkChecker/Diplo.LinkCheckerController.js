@@ -15,9 +15,11 @@ angular.module("umbraco")
             error(function () {
                 $scope.config.timeout = 30;
                 $scope.config.onlyShowErrors = false;
+                $scope.config.checkInternalLinksOnly = false;
                 $scope.config.checkEntireDocument = false;
                 $scope.config.showSearchBox = false;
                 $scope.config.omitPortDuringChecks = false;
+                $scope.config.showErrors = "300,400,500";
                 console.log("Couldn't load config.js - dropping back to defaults...");
                 initialise();
             });
@@ -75,7 +77,10 @@ angular.module("umbraco")
                                 checkEntireDocument: $scope.config.checkEntireDocument,
                                 timeout: $scope.config.timeout,
                                 hideDuplicates: $scope.config.hideDuplicates,
-                                omitPortDuringChecks: $scope.config.omitPortDuringChecks
+                                omitPortDuringChecks: $scope.config.omitPortDuringChecks,
+                                checkInternalLinksOnly: $scope.config.checkInternalLinksOnly,
+                                onlyShowErrors: $scope.config.onlyShowErrors,
+                                showErrors: $scope.config.showErrors
                             }
                         }).
                             success(function (data, status, headers, config) {

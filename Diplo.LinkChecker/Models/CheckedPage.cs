@@ -85,6 +85,17 @@ namespace Diplo.LinkChecker.Models
         }
 
         /// <summary>
+        /// Get a count of how many links returned an error code matching what should be displayed
+        /// </summary>
+        public int DisplayCount
+        {
+            get
+            {
+                return this.CheckedLinks.Where(x => x.IsDisplayCode).Count();
+            }
+        }
+
+        /// <summary>
         /// Get a count of how many links returned a success code
         /// </summary>
         public int SuccessCount 

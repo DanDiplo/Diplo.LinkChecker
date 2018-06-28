@@ -6,7 +6,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <h3><i class="icon-link"></i>Link Checker <small>v1.0</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
+                    <h3><i class="icon-link"></i>Link Checker <small>v1.1</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
                 </div>
 
                 <div class="alert alert-error" ng-show="errorMessage.length > 0">
@@ -63,7 +63,20 @@
                                 </label>
                             </div>
                             <div class="span3 text-right">
-                                <a href="" ng-click="openHelp()" style="font-size:26px" title="Help"><strong><i class="icon-help-alt"></i></strong></a>
+                                <a href="" ng-click="openHelp()" style="font-size: 26px" title="Help"><strong><i class="icon-help-alt"></i></strong></a>
+                            </div>
+                        </div>
+                        <div class="row form-inline" style="padding-top: 20px">
+                            <div class="span3">
+                                <label title="Tick to check only internal links">
+                                    <input type="checkbox" ng-model="config.checkInternalLinksOnly" />
+                                    Check internal links only
+                                </label>
+                            </div>
+                            <div class="span7">
+                                <label for="error-codes" title="Select which groups of errors should be returned">Only show errors with Status Code types: </label>
+                                <input id="error-codes" type="text" ng-model="config.showErrors" class="input-medium" />
+                                (comma-separated list)
                             </div>
                         </div>
                     </div>
@@ -81,7 +94,7 @@
         </div>
 
 
-        <div ng-repeat="page in checkedPages" ng-show="(page.ErrorCount > 0 && config.onlyShowErrors) || !config.onlyShowErrors">
+        <div ng-repeat="page in checkedPages" ng-show="(page.DisplayCount > 0)">
 
             <div class="panel panel-default">
 
@@ -137,7 +150,7 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr ng-repeat="link in page.CheckedLinks | filter:searchText" ng-show="(config.onlyShowErrors && !link.IsSuccessCode) || !config.onlyShowErrors">
+                                                    <tr ng-repeat="link in page.CheckedLinks | filter:searchText" ng-show="link.IsDisplayCode">
                                                         <td><a href ng-click="openDetail(link, page)">{{ link.Url | limitTo: 70 }}</a></td>
                                                         <td>{{ link.TypeName }}</td>
                                                         <td>{{link.StatusCode }} {{ link.Status }}</td>

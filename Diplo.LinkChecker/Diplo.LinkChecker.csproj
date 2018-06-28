@@ -213,8 +213,8 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>XCOPY /y  "$(TargetDir)$(TargetName).*" "C:\Users\Heather\NAS Folders\Active Projects\Webs\Clients\SPRT\Sprott-v6\sourcecode\Sprott-V6\bin"
+XCOPY /y  /E "$(ProjectDir)App_Plugins" "C:\Users\Heather\NAS Folders\Active Projects\Webs\Clients\SPRT\Sprott-v6\sourcecode\Sprott-V6\App_Plugins"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
