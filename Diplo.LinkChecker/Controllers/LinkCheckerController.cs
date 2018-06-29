@@ -84,48 +84,81 @@ namespace Diplo.LinkChecker.Controllers
             {
                 displayErrorCodes.Add("200");
             }
-            
-            //foreach (var code in displayErrorCodes)
-            //{
-            //    if (code.Length > 0)
-            //    {
-            //        var prefix = code.Substring(0, 1);
-            //    }
-            //}
+
+            foreach (var code in displayErrorCodes)
+            {
+                if (code.Length > 0)
+                {
+                    var prefix = code.Substring(0, 1);
+                    displayPrefixes.Add(prefix);
+                }
+            }
 
             if (page.CheckedLinks!=null && page.CheckedLinks.Any())
             {
                 var updatedLinks = new List<Link>();
 
-                var linksWithCodes = page.CheckedLinks.Where(n => !string.IsNullOrEmpty(n.StatusCode)).ToList();
-                var linksWithOutCodes = page.CheckedLinks.Where(n => string.IsNullOrEmpty(n.StatusCode)).ToList();
+                //var linksWithCodes = page.CheckedLinks.Where(n => !string.IsNullOrEmpty(n.StatusCode)).ToList();
+                //var linksWithOutCodes = page.CheckedLinks.Where(n => string.IsNullOrEmpty(n.StatusCode)).ToList();
 
-                foreach (var code in displayErrorCodes)
+                foreach (var checkedLink in page.CheckedLinks.ToList())
                 {
-                    if (code.Length > 0)
+                    //Link with status code
+                    if (!string.IsNullOrEmpty(checkedLink.StatusCode))
                     {
-                        var prefix = code.Substring(0, 1);
-                        var matches = linksWithCodes.Where(n => n.StatusCode.StartsWith(prefix)).ToList();
-                        if (matches.Any())
+                        var statusCodePrefix = checkedLink.StatusCode.Substring(0, 1);
+                        if (displayPrefixes.Contains(statusCodePrefix))
                         {
-                            foreach (var match in matches)
-                            {
-                                match.IsDisplayCode = true;
-                                updatedLinks.Add(match);
-                            }
+                            checkedLink.IsDisplayCode = true;
+                        }
+                        else
+                        {
+                            checkedLink.IsDisplayCode = false;
                         }
                     }
+                    else //Link without status code
+                    {
+                        if (displayAllErrors)
+                        {
+                            //Also show errors without a code
+                            checkedLink.IsDisplayCode = true;
+                        }
+                        else
+                        {
+                            checkedLink.IsDisplayCode = false;
+                        }
+                    }
+
+                    updatedLinks.Add(checkedLink);
                 }
 
-                if (displayAllErrors)
-                {
-                    //Also show errors without a code
-                    foreach (var match in linksWithOutCodes)
-                    {
-                        match.IsDisplayCode = true;
-                        updatedLinks.Add(match);
-                    }
-                }
+
+                //foreach (var code in displayErrorCodes)
+                //{
+                //    if (code.Length > 0)
+                //    {
+                //        var prefix = code.Substring(0, 1);
+                //        var matches = linksWithCodes.Where(n => n.StatusCode.StartsWith(prefix)).ToList();
+                //        if (matches.Any())
+                //        {
+                //            foreach (var match in matches)
+                //            {
+                //                match.IsDisplayCode = true;
+                //                updatedLinks.Add(match);
+                //            }
+                //        }
+                //    }
+                //}
+
+                //if (displayAllErrors)
+                //{
+                //    //Also show errors without a code
+                //    foreach (var match in linksWithOutCodes)
+                //    {
+                //        match.IsDisplayCode = true;
+                //        updatedLinks.Add(match);
+                //    }
+                //}
 
                 page.CheckedLinks = updatedLinks;
             }
