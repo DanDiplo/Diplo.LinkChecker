@@ -47,6 +47,11 @@ namespace Diplo.LinkChecker.Models
         public bool IsSuccessCode { get; set; }
 
         /// <summary>
+        /// Get or set whether the status code indicates an error to display
+        /// </summary>
+        public bool IsDisplayCode { get; set; }
+
+        /// <summary>
         /// Get or set any additional error information eg. exception message
         /// </summary>
         public string Error { get; set; }
