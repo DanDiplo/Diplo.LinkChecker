@@ -6,7 +6,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <h3><i class="icon-link"></i>Link Checker <small>v1.0</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
+                    <h3><i class="icon-link"></i>Link Checker <small>v1.1</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
                 </div>
 
                 <div class="alert alert-error" ng-show="errorMessage.length > 0">
@@ -53,17 +53,30 @@
                             </div>
                             <div class="span3">
                                 <label for="http-timeout" title="Set how long to wait before deciding that a link has timed out">Timeout </label>
-                                <input id="http-timeout" type="number" ng-model="config.timeout" class="input-mini" />
+                                <input id="http-timeout" type="number" ng-model="config.timeout" class="input-mini" min="1" max="90" />
                                 secs
                             </div>
                             <div class="span3">
-                                <label title="Tick to allow searching of links">
+                                <label title="Tick to allow searching of links within page results">
                                     <input type="checkbox" ng-model="config.showSearchBox" />
-                                    Show search box
+                                    Show search
                                 </label>
                             </div>
                             <div class="span3 text-right">
                                 <a href="" ng-click="openHelp()" style="font-size:26px" title="Help"><strong><i class="icon-help-alt"></i></strong></a>
+                            </div>
+                        </div>
+                        <div class="row form-inline" style="padding-top: 20px">
+                            <div class="span3">
+                                <label title="Tick to only check internal links (ie. links within your website)">
+                                    <input type="checkbox" ng-model="config.checkInternalLinksOnly" />
+                                    Only check internal links
+                                </label>
+                            </div>
+                            <div class="span7">
+                                <label for="error-codes" title="Add status codes to limit the check to just these error statuses">Status codes</label>
+                                <input id="error-codes" type="text" ng-model="config.showErrors" class="input-medium" placeholder="eg. 404,500,401" />
+                                <small class="text-muted">comma-separated list of codes</small>
                             </div>
                         </div>
                     </div>
@@ -76,8 +89,30 @@
 
             <p ng-show="showStartMessage"><strong>Select the page to start the link check from <i class="icon-arrow-right"></i></strong></p>
 
-            <p ng-show="startNodeName">Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong>. <span ng-bind-html="finishMessage"></span></p>
+            <p ng-show="startNodeName">Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong>. <span ng-bind-html="finishMessage"></span> <a class="accordion-toggle" data-toggle="collapse" href="#collapse-link-stats" ng-show="finishMessage">View Statuses</a></p>
 
+        </div>
+
+        <div id="collapse-link-stats" class="accordion-body collapse out">
+            <div class="accordion-inner">
+
+                <table class="table table-bordered" ng-show="statusGroup">
+                    <thead>
+                        <tr class="header">
+                            <th>Status</th>
+                            <th>Count</th>
+                            <th>Explanation</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="(key, value) in statusGroup track by key">
+                            <td><strong>{{key}}</strong></td>
+                            <td>{{value}}</td>
+                            <td>{{ getStatusDescription(key).description }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
