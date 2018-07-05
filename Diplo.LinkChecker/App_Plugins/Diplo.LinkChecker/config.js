@@ -2,8 +2,8 @@
     {
         "timeout": 30,
         "onlyShowErrors": false,
-        "checkInternalLinksOnly": false,
-        "showErrors": "300,400,500",
+        "checkInternalLinksOnly": true,
+        "showErrors": null, // "404,500"
         "checkEntireDocument": false,
         "showSearchBox": false,
         "omitPortDuringChecks": false
