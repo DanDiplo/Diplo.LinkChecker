@@ -383,5 +383,12 @@
         "description": "Indicates that the client needs to authenticate to gain network access.",
         "spec_title": "RFC6585#6",
         "spec_href": "http://tools.ietf.org/html/rfc6585#section-6"
+    },
+    {
+        "code": "N/A",
+        "phrase": "Error Sending Request",
+        "description": "The URL was malformed or links to a non-existant domain",
+        "spec_title": "",
+        "spec_href": ""
     }
 ]
