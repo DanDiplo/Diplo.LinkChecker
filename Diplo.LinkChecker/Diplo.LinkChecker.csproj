@@ -206,6 +206,7 @@
   <ItemGroup>
     <Content Include="App_Plugins\Diplo.LinkChecker\checker.css" />
     <Content Include="App_Plugins\Diplo.LinkChecker\checker.html" />
+    <Content Include="App_Plugins\Diplo.LinkChecker\checkern.html" />
     <Content Include="App_Plugins\Diplo.LinkChecker\config.js" />
     <Content Include="App_Plugins\Diplo.LinkChecker\detail.html" />
     <Content Include="App_Plugins\Diplo.LinkChecker\Diplo.LinkCheckerController.js" />
@@ -213,8 +214,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
+    <PostBuildEvent>xcopy /y "$(ProjectDir)$(OutDir)$(TargetFileName)" "D:\Websites\Umbraco\Version 7\Umbraco 7.2.4\Umbraco7.2.4\bin"
+xcopy /y "$(ProjectDir)$(OutDir)$(TargetName).pdb" "D:\Websites\Umbraco\Version 7\Umbraco 7.2.4\Umbraco7.2.4\bin"
+xcopy /y "$(ProjectDir)$(OutDir)$(TargetName).xml" "D:\Websites\Umbraco\Version 7\Umbraco 7.2.4\Umbraco7.2.4\bin"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
