@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Umbraco.Core.Models;
 
 namespace Diplo.LinkChecker.Models
@@ -65,58 +63,26 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get a count of how many links in this page have been checked
         /// </summary>
-        public int LinksCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Count();
-            }
-        }
+        public int LinksCount => this.CheckedLinks.Count();
 
         /// <summary>
         /// Get a count of how many links returned an error code
         /// </summary>
-        public int ErrorCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Where(x => !x.IsSuccessCode).Count();
-            }
-        }
+        public int ErrorCount => this.CheckedLinks.Where(x => !x.IsSuccessCode).Count();
 
         /// <summary>
         /// Get a count of how many links returned an error code matching what should be displayed
         /// </summary>
-        public int DisplayCount
-        {
-            get
-            {
-                return this.CheckedLinks.Where(x => x.IsDisplayCode).Count();
-            }
-        }
+        public int DisplayCount => this.CheckedLinks.Where(x => x.IsDisplayCode).Count();
 
         /// <summary>
         /// Get a count of how many links returned a success code
         /// </summary>
-        public int SuccessCount 
-        {
-            get
-            {
-                return this.CheckedLinks.Where(x => x.IsSuccessCode).Count();
-            }
-        }
+        public int SuccessCount => this.CheckedLinks.Where(x => x.IsSuccessCode).Count();
 
         /// <summary>
         /// Get whether any of the links raised an error
         /// </summary>
-        public bool HasErrors 
-        {
-            get
-            {
-                return this.CheckedLinks.Any(x => !x.IsSuccessCode);
-            }
-        }
-
- 
+        public bool HasErrors => this.CheckedLinks.Any(x => !x.IsSuccessCode);
     }
 }

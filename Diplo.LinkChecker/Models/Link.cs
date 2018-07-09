@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Umbraco.Core;
 using Diplo.LinkChecker.Helpers;
+using Umbraco.Core;
 
 namespace Diplo.LinkChecker.Models
 {
@@ -52,7 +47,7 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get the type of link this is eg. "Hyperlink" or "Resource"
         /// </summary>
-        public string LinkType 
+        public string LinkType
         {
             get
             {
@@ -98,7 +93,7 @@ namespace Diplo.LinkChecker.Models
         /// </summary>
         public override string ToString()
         {
-            return String.Format("Url: {0}, Text: {1}, Tag: {2}, Attribute: {3}, Internal?: {4}, Position: ({5},{6})", 
+            return String.Format("Url: {0}, Text: {1}, Tag: {2}, Attribute: {3}, Internal?: {4}, Position: ({5},{6})",
                 this.Url, this.Text, this.TagName, this.Attribute, this.IsInternal, this.Line, this.Column);
         }
     }

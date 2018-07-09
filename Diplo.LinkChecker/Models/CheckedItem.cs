@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Diplo.LinkChecker.Models
 {
@@ -20,13 +15,7 @@ namespace Diplo.LinkChecker.Models
         /// <summary>
         /// Get the host
         /// </summary>
-        public string Host 
-        {
-            get
-            {
-                return this.Url != null ? this.Url.Host : String.Empty;
-            }
-        }
+        public string Host => this.Url != null ? this.Url.Host : String.Empty;
 
         /// <summary>
         /// Get or set the status of the link eg. Not Found

@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using Diplo.LinkChecker.Models;
 using Diplo.LinkChecker.Services;
-using Umbraco.Core;
-using Umbraco.Core.Models;
 using Umbraco.Web;
 using Umbraco.Web.WebApi;
 
@@ -27,7 +23,7 @@ namespace Diplo.LinkChecker.Controllers
         /// <param name="timeout">The timeout period (in seconds) before the checker abandons trying to connect to a server</param>
         /// <param name="omitPortDuringChecks">Omits the port number when checking a page</param>
         /// <param name="checkInternalLinksOnly">Skip checking external links</param>
-        /// <param name="showErrors">Error code types to display</param>
+        /// <param name="showErrors">Error status codes to limit results to</param>
         /// <returns>A list of checked links</returns>
         /// <remarks>
         /// /Umbraco/Backoffice/Api/LinkChecker/CheckPage/1073

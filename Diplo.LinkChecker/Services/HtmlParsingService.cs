@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
 using Diplo.LinkChecker.Models;
 using HtmlAgilityPack;
 
@@ -28,7 +25,8 @@ namespace Diplo.LinkChecker.Services
 
         private static Regex MatchProtocolRegex = new Regex(@"^\w{3,8}://*", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
-        private static readonly string[] InvalidProtocols = { "mailto:", "ftp:", "tel:", "ldap://", "ftp://", "mms://", "news:", "nntp://", "sftp://", "ssh://", "telnet://", "udp://", "javascript:" };
+        // https://www.iana.org/assignments/uri-schemes/uri-schemes.xhtml
+        private static readonly string[] InvalidProtocols = { "mailto:", "ftp:", "tel:", "ldap://", "urn:", "magnet:", "ftp://", "geo:", "mms://", "news:", "nntp://", "sftp://", "ssh://", "telnet://", "udp://", "javascript:", "webcal:", "chrome://" };
 
         /// <summary>
         /// If true then parses the entire HTML document, otherwise just checks the BODY section
@@ -86,20 +84,20 @@ namespace Diplo.LinkChecker.Services
 
                 if (source != null && !String.IsNullOrEmpty(source.Value) && source.Value.Trim() != "#")
                 {
-                    Uri uri;
-
-                    if (Uri.TryCreate(this.BaseUri, source.Value, out uri))
+                    if (Uri.TryCreate(this.BaseUri, source.Value, out Uri uri))
                     {
                         if (uri.Scheme == "http" || uri.Scheme == "https")
                         {
-                            Link link = new Link();
-                            link.Url = uri;
-                            link.Text = node.InnerText;
-                            link.Line = source.Line;
-                            link.Column = source.LinePosition;
-                            link.Attribute = attribute;
-                            link.TagName = node.Name;
-                            link.IsInternal = !MatchProtocolRegex.IsMatch(source.Value);
+                            Link link = new Link
+                            {
+                                Url = uri,
+                                Text = node.InnerText,
+                                Line = source.Line,
+                                Column = source.LinePosition,
+                                Attribute = attribute,
+                                TagName = node.Name,
+                                IsInternal = !MatchProtocolRegex.IsMatch(source.Value)
+                            };
 
                             yield return link;
                         }

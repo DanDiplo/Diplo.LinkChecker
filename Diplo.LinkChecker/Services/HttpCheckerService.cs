@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Runtime.Caching;
-using System.Text;
 using System.Threading.Tasks;
 using Diplo.LinkChecker.Models;
 
@@ -40,7 +40,7 @@ namespace Diplo.LinkChecker.Services
         /// </summary>
         public HttpCheckerService()
         {
-            this.InternalUserAgent = "Mozilla/5.0 (Diplo LinkChecker 1.0 for Umbraco)";
+            this.InternalUserAgent = "Mozilla/5.0 (Diplo LinkChecker 1.1 for Umbraco)";
             this.ExternalUserAgent = "Mozilla/5.0 (compatible; LinkChecker 1.0; MSIE 11.0; Windows NT 6.2; WOW64; Trident/6.0)";
             this.CachePeriod = TimeSpan.FromMinutes(1);
             this.Timeout = TimeSpan.FromSeconds(30);
@@ -102,11 +102,14 @@ namespace Diplo.LinkChecker.Services
             var handler = new HttpClientHandler()
             {
                 AllowAutoRedirect = true,
+                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
             };
 
             using (HttpClient client = new HttpClient(handler))
             {
                 client.DefaultRequestHeaders.Add("user-agent", this.ExternalUserAgent);
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
                 client.Timeout = this.Timeout;
 
                 IEnumerable<Task<Link>> checkUrlsQuery =
@@ -119,7 +122,6 @@ namespace Diplo.LinkChecker.Services
                 return results;
             }
         }
-
 
         /// <summary>
         /// Checks the URL of a given link using the supplied HTTP client
@@ -142,7 +144,7 @@ namespace Diplo.LinkChecker.Services
 
             try
             {
-                using (var message = new HttpRequestMessage(HttpMethod.Head, link.Url))        
+                using (var message = new HttpRequestMessage(HttpMethod.Head, link.Url))
                 {
                     using (var response = await client.SendAsync(message))
                     {
