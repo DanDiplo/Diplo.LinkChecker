@@ -62,9 +62,11 @@ namespace Diplo.LinkChecker.Services
                 throw new ArgumentNullException("url", "The URL to fetch HTML from cannot be null");
             }
 
-            using (HttpClient client = new HttpClient())
+            using (HttpClient client = new HttpClient(Config.GetClientHandler()))
             {
                 client.DefaultRequestHeaders.Add("user-agent", this.InternalUserAgent);
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
                 client.Timeout = this.Timeout;
 
                 using (var message = new HttpRequestMessage(HttpMethod.Get, url))
@@ -99,13 +101,7 @@ namespace Diplo.LinkChecker.Services
                 throw new ArgumentNullException("The list of links to check cannot be null");
             }
 
-            var handler = new HttpClientHandler()
-            {
-                AllowAutoRedirect = true,
-                AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate
-            };
-
-            using (HttpClient client = new HttpClient(handler))
+            using (HttpClient client = new HttpClient(Config.GetClientHandler()))
             {
                 client.DefaultRequestHeaders.Add("user-agent", this.ExternalUserAgent);
                 client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
