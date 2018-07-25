@@ -6,7 +6,7 @@
             <div class="panel panel-default">
 
                 <div class="panel-heading">
-                    <h3><i class="icon-link"></i>Link Checker <small>v1.1</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
+                    <h3><i class="icon-link"></i>Link Checker <small>v1.3</small> <span class="pull-right text-right"><a class="accordion-toggle" style="text-decoration: none" data-toggle="collapse" data-parent="#accordionAdvancedOpts" href="#collapseAdvanced" title="Settings"><i class="icon-settings"></i></a></span></h3>
                 </div>
 
                 <div class="alert alert-error" ng-show="errorMessage.length > 0">
@@ -87,26 +87,29 @@
                 <div class="bar" ng-style="{ width: progress + '%' }"></div>
             </div>
 
-            <p ng-show="showStartMessage"><strong>Select the page to start the link check from <i class="icon-arrow-right"></i></strong></p>
+            <p ng-show="showStartMessage">
+                <strong>Select the page to start the link check from <i class="icon-arrow-right"></i></strong>
+            </p>
 
-            <p ng-show="startNodeName">Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong>. <span ng-bind-html="finishMessage"></span> <a class="accordion-toggle" data-toggle="collapse" href="#collapse-link-stats" ng-show="finishMessage">View Statuses</a></p>
-
+            <p ng-show="startNodeName">
+                Checked <span>{{ pageCnt }}</span> pages starting from <strong>{{ startNodeName }}</strong>. <span ng-bind-html="finishMessage"></span> 
+                <a class="accordion-toggle" data-toggle="collapse" href="#collapse-link-stats" ng-show="finishMessage" title="View HTTP status codes">View Statuses</a>
+            </p>
         </div>
 
         <div id="collapse-link-stats" class="accordion-body collapse out">
             <div class="accordion-inner">
-
                 <table class="table table-bordered" ng-show="statusGroup">
                     <thead>
                         <tr class="header">
                             <th>Status</th>
                             <th>Count</th>
-                            <th>Explanation</th>
+                            <th>Explanation <a class="pull-right" href="https://en.wikipedia.org/wiki/List_of_HTTP_status_codes" target="_blank" title="Read more about HTTP codes on Wikipedia">learn more</a></th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="(key, value) in statusGroup track by key">
-                            <td><strong>{{key}}</strong></td>
+                            <th><strong>{{key}}</strong></th>
                             <td>{{value}}</td>
                             <td>{{ getStatusDescription(key).description }}</td>
                         </tr>
@@ -114,7 +117,6 @@
                 </table>
             </div>
         </div>
-
 
         <div ng-repeat="page in checkedPages" ng-show="(page.ErrorCount > 0 && config.onlyShowErrors) || !config.onlyShowErrors">
 

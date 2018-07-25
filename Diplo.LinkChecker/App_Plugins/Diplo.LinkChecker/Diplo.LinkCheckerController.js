@@ -3,7 +3,6 @@
     angular.module("umbraco")
         .controller("Diplo.LinkCheckerController",
             function ($scope, $http, $filter, dialogService, notificationsService) {
-
                 var baseApiUrl = "/Umbraco/BackOffice/Api/LinkChecker/";
                 var checkLinksUrl = baseApiUrl + "CheckPage/";
                 var getIdsToCheckUrl = baseApiUrl + "GetIdsToCheck/";
@@ -27,7 +26,6 @@
                     });
 
                 var initialise = function () {
-
                     console.log($scope.config);
 
                     $scope.buttonText = "Start Check";
@@ -69,7 +67,6 @@
 
                     $http.get(getIdsToCheckUrl + data.id).
                         success(function (data, status, headers, config) {
-
                             var dataLength = data.length;
 
                             if (dataLength < 1) {
@@ -79,7 +76,6 @@
                             }
 
                             for (var i = 0; i < data.length; i++) {
-
                                 $http({
                                     url: checkLinksUrl + data[i],
                                     method: "GET",
@@ -94,25 +90,22 @@
                                     }
                                 }).
                                     success(function (data, status, headers, config) {
-
                                         $scope.linksCheckedCnt += data.LinksCount;
                                         $scope.linksErrorCnt += data.ErrorCount;
                                         $scope.linksOkCnt += data.SuccessCount;
                                         $scope.pageCnt++;
 
                                         if (data.CheckedLinks.length > 0) {
-
                                             for (var i = 0; i < data.CheckedLinks.length; i++) {
                                                 var statusCode = data.CheckedLinks[i].StatusCode;
 
                                                 statusCode = statusCode == null ? "N/A" : statusCode;
-                                                
+
                                                 if (statusCode in $scope.statusGroup) {
                                                     $scope.statusGroup[statusCode] = $scope.statusGroup[statusCode] + 1;
                                                 } else {
                                                     $scope.statusGroup[statusCode] = 1;
                                                 }
-                                                
                                             }
                                         }
 
@@ -145,7 +138,6 @@
                             console.log(data);
                             cnt++;
                         });
-
                 };
 
                 var calculateProgress = function (currentPage, totalPages) {
@@ -180,6 +172,5 @@
                         show: true, width: 800
                     });
                 };
-
             });
 })();

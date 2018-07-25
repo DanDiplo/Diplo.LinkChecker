@@ -2,25 +2,25 @@
     function LinkCheckerDetailController($scope, $routeParams, $http, $filter) {
 
         $http.get("/App_Plugins/Diplo.LinkChecker/HttpStatusCodes.js").
-                success(function (data, status, headers, config) {
-                    $scope.httpCode = $filter('filter')(data, function (d) { return d.code == $scope.dialogData.StatusCode; })[0];
-        });
+            success(function (data, status, headers, config) {
+                $scope.httpCode = $filter('filter')(data, function (d) { return d.code == $scope.dialogData.StatusCode; })[0];
+            });
     }
 </script>
 
 <style type="text/css">
     #linkdetail table a {
-        text-decoration:underline;
+        text-decoration: underline;
     }
 </style>
 
 <div class="umb-panel" ng-controller="LinkCheckerDetailController" id="linkdetail">
 
-	<div class="umb-panel-header">
-		<div class="umb-el-wrap">
-	        <h3>Link Details <b class="icon-alert" ng-show="!dialogData.IsSuccessCode"></b></h3>
-    	</div>
-	</div>
+    <div class="umb-panel-header">
+        <div class="umb-el-wrap">
+            <h3>Link Details <b class="icon-alert" ng-show="!dialogData.IsSuccessCode"></b></h3>
+        </div>
+    </div>
 
     <div class="umb-panel-body with-footer">
 
@@ -31,7 +31,8 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td><span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span> 
+                <td>
+                    <span ng-class="{ 'label label-success' : dialogData.IsSuccessCode, 'label label-error' : !dialogData.IsSuccessCode }">{{ dialogData.StatusCode }}</span>
                     {{ dialogData.Status }} {{ dialogData.Error }}
                 </td>
             </tr>
@@ -72,17 +73,15 @@
                 <td><a ng-href="{{dialogData.page.Url}}" target="_blank" title="View">View Page</a> | <a ng-href="#/content/content/edit/{{ dialogData.page.Id }}" target="_blank" title="Edit page">Edit Page</a></td>
             </tr>
         </table>
-
     </div>
 
-    <div class="umb-panel-footer" >
-		<div class="umb-el-wrap umb-panel-buttons">
-	        <div class="btn-toolbar umb-btn-toolbar pull-right">
-	        	<a href ng-click="close()" class="btn btn-default">
-	        		<localize key="general_cancel">Cancel</localize>
-				</a>
-	        </div>
-		</div>
-	</div>
-
+    <div class="umb-panel-footer">
+        <div class="umb-el-wrap umb-panel-buttons">
+            <div class="btn-toolbar umb-btn-toolbar pull-right">
+                <a href ng-click="close()" class="btn btn-default">
+                    <localize key="general_cancel">Cancel</localize>
+                </a>
+            </div>
+        </div>
+    </div>
 </div>

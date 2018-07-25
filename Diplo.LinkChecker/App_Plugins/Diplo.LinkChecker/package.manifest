@@ -1,8 +1,8 @@
 {
    javascript: [
-        '~/App_Plugins/Diplo.LinkChecker/Diplo.LinkCheckerController.js'
+        "~/App_Plugins/Diplo.LinkChecker/Diplo.LinkCheckerController.js"
     ],
     css: [
-		'~/App_Plugins/Diplo.LinkChecker/checker.css'
+		"~/App_Plugins/Diplo.LinkChecker/checker.css"
 	]
 }

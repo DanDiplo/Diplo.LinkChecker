@@ -40,16 +40,16 @@ namespace Diplo.LinkChecker.Controllers
 
             timeout = timeout < 1 ? 1 : timeout;
 
-            CheckedPage page = new CheckedPage(node);
+            var page = new CheckedPage(node);
 
-            HttpCheckerService checker = new HttpCheckerService
+            var checker = new HttpCheckerService
             {
                 Timeout = TimeSpan.FromSeconds(timeout)
             };
 
             string html = await checker.GetHtmlFromUrl(new Uri(node.UrlAbsolute()));
 
-            HtmlParsingService parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)), !omitPortDuringChecks)
+            var parser = new HtmlParsingService(new Uri(Request.RequestUri.GetLeftPart(UriPartial.Authority)), !omitPortDuringChecks)
             {
                 CheckEntireDocument = checkEntireDocument
             };

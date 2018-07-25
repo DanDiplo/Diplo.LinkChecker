@@ -50,7 +50,7 @@ namespace Diplo.LinkChecker.Services
                 yield break;
             }
 
-            HtmlDocument doc = new HtmlDocument();
+            var doc = new HtmlDocument();
             doc.LoadHtml(html);
 
             if (doc == null || doc.DocumentNode == null)
@@ -88,7 +88,7 @@ namespace Diplo.LinkChecker.Services
                     {
                         if (uri.Scheme == "http" || uri.Scheme == "https")
                         {
-                            Link link = new Link
+                            var link = new Link
                             {
                                 Url = uri,
                                 Text = node.InnerText,

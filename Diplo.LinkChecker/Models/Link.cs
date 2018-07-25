@@ -56,8 +56,7 @@ namespace Diplo.LinkChecker.Models
                     return String.Empty;
                 }
 
-                string type;
-                if (!ContentMapHelper.TagNameMap.TryGetValue(this.TagName, out type))
+                if (!ContentMapHelper.TagNameMap.TryGetValue(this.TagName, out string type))
                 {
                     type = this.TagName.ToFirstUpper();
                 }
@@ -78,8 +77,7 @@ namespace Diplo.LinkChecker.Models
                     return String.Empty;
                 }
 
-                string type;
-                if (!ContentMapHelper.ContentTypeMap.TryGetValue(this.ContentType, out type))
+                if (!ContentMapHelper.ContentTypeMap.TryGetValue(this.ContentType, out string type))
                 {
                     type = this.ContentType.Substring(0, this.ContentType.IndexOf('/')).ToFirstUpper();
                 }

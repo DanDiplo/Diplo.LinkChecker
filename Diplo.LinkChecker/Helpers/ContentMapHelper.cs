@@ -8,7 +8,7 @@ namespace Diplo.LinkChecker.Helpers
     /// </summary>
     internal static class ContentMapHelper
     {
-        internal static Dictionary<string, string> TagNameMap = new Dictionary<string, string>()
+        internal static readonly Dictionary<string, string> TagNameMap = new Dictionary<string, string>()
         {
             { "link", "Resource" },
             { "script", "Script" },
@@ -24,7 +24,7 @@ namespace Diplo.LinkChecker.Helpers
             { "base", "Base URL"}
         };
 
-        internal static Dictionary<string, string> ContentTypeMap = new Dictionary<string, string>()
+        internal static readonly Dictionary<string, string> ContentTypeMap = new Dictionary<string, string>()
         {
             { "application/atom+xml", "Atom Feed" },
             { "application/javascript", "JavaScript" },

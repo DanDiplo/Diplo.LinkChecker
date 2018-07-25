@@ -174,9 +174,7 @@ namespace Diplo.LinkChecker.Services
 
                 if (ex.InnerException != null && ex.InnerException is WebException)
                 {
-                    var webEx = ex.InnerException as WebException;
-
-                    if (webEx != null)
+                    if (ex.InnerException is WebException webEx)
                     {
                         link.Error = webEx.Message;
                     }
