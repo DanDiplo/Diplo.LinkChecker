@@ -22,4 +22,4 @@ Package available at https://our.umbraco.org/projects/backoffice-extensions/dipl
 
 NuGet version at https://www.nuget.org/packages/Diplo.LinkChecker/
 
-`PM> Install-Package Diplo.LinkChecker -Version 1.3.0`
+`PM> Install-Package Diplo.LinkChecker`
