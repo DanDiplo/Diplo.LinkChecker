@@ -85,9 +85,9 @@ namespace Diplo.LinkChecker.Services
                                 if (!string.IsNullOrWhiteSpace(response.Content.Headers.ContentType.CharSet))
                                 {
                                     var buffer = await response.Content.ReadAsByteArrayAsync();
-                                    var enconding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
+                                    var encoding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
 
-                                    return WebUtility.HtmlDecode(enconding.GetString(buffer));
+                                    return WebUtility.HtmlDecode(encoding.GetString(buffer));
                                 }
                                 else
                                 {
