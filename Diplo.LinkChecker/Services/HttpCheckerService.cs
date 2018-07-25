@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Runtime.Caching;
+using System.Text;
 using System.Threading.Tasks;
 using Diplo.LinkChecker.Models;
 
@@ -79,7 +80,21 @@ namespace Diplo.LinkChecker.Services
                         {
                             if (response.IsSuccessStatusCode)
                             {
-                                return await response.Content.ReadAsStringAsync();
+                                string content = string.Empty;
+
+                                if (!string.IsNullOrWhiteSpace(response.Content.Headers.ContentType.CharSet))
+                                {
+                                    var buffer = await response.Content.ReadAsByteArrayAsync();
+                                    var enconding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
+
+                                    return WebUtility.HtmlDecode(enconding.GetString(buffer));
+                                }
+                                else
+                                {
+                                    content = await response.Content.ReadAsStringAsync();
+
+                                    return WebUtility.HtmlDecode(content);
+                                }
                             }
                         }
                     }
