@@ -8,6 +8,7 @@ using System.Runtime.Caching;
 using System.Text;
 using System.Threading.Tasks;
 using Diplo.LinkChecker.Models;
+using Umbraco.Core.Logging;
 
 namespace Diplo.LinkChecker.Services
 {
@@ -16,6 +17,16 @@ namespace Diplo.LinkChecker.Services
     /// </summary>
     public class HttpCheckerService
     {
+        private static readonly HttpClient internalClient;
+
+        static HttpCheckerService()
+        {
+            internalClient = new HttpClient(Config.GetClientHandler());
+            internalClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
+            internalClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
+            internalClient.Timeout = TimeSpan.FromSeconds(30);
+        }
+
         /// <summary>
         /// Gets or sets the user agent string when making internal (local) requests to get the Umbraco page content
         /// </summary>
@@ -63,16 +74,13 @@ namespace Diplo.LinkChecker.Services
                 throw new ArgumentNullException("url", "The URL to fetch HTML from cannot be null");
             }
 
-            using (HttpClient client = new HttpClient(Config.GetClientHandler()))
+            try
             {
-                client.DefaultRequestHeaders.Add("user-agent", this.InternalUserAgent);
-                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
-                client.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
-                client.Timeout = this.Timeout;
-
                 using (var message = new HttpRequestMessage(HttpMethod.Get, url))
                 {
-                    using (var response = await client.SendAsync(message))
+                    message.Headers.Add("user-agent", this.InternalUserAgent);
+
+                    using (var response = await internalClient.SendAsync(message))
                     {
                         response.EnsureSuccessStatusCode();
 
@@ -86,19 +94,21 @@ namespace Diplo.LinkChecker.Services
                                 {
                                     var buffer = await response.Content.ReadAsByteArrayAsync();
                                     var encoding = Encoding.GetEncoding(response.Content.Headers.ContentType.CharSet);
-
                                     return WebUtility.HtmlDecode(encoding.GetString(buffer));
                                 }
                                 else
                                 {
                                     content = await response.Content.ReadAsStringAsync();
-
                                     return WebUtility.HtmlDecode(content);
                                 }
                             }
                         }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                LogHelper.Error<HttpCheckerService>("Diplo LinkChecker could not check URL: " + url, ex);
             }
 
             return String.Empty;
