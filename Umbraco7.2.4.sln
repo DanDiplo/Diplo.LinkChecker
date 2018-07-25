@@ -1,6 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2012
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2042
+MinimumVisualStudioVersion = 10.0.40219.1
 Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Umbraco7.2.4", "http://localhost:49830", "{4CC5E846-0421-4EDD-8A04-C761344F1E80}"
 	ProjectSection(WebsiteProperties) = preProject
 		UseIISExpress = "true"
@@ -24,6 +26,17 @@ Project("{E24C65DC-7377-472B-9ABA-BC803B73C61A}") = "Umbraco7.2.4", "http://loca
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Diplo.LinkChecker", "Diplo.LinkChecker\Diplo.LinkChecker.csproj", "{C9134A8C-69C3-407D-88C3-1F07270F41A1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Packaging", "Packaging", "{6A6D03B4-FC3A-44CB-A021-FEB144FE2D98}"
+	ProjectSection(SolutionItems) = preProject
+		Packaging\build-appveyor.bat = Packaging\build-appveyor.bat
+		Packaging\build.bat = Packaging\build.bat
+		Packaging\build.xml = Packaging\build.xml
+		Packaging\transforms\Dashboard.config.install.xdt = Packaging\transforms\Dashboard.config.install.xdt
+		Packaging\transforms\Dashboard.config.uninstall.xdt = Packaging\transforms\Dashboard.config.uninstall.xdt
+		Packaging\package.nuspec = Packaging\package.nuspec
+		Packaging\Package.xml = Packaging\Package.xml
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,5 +54,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E292BC9D-9070-456E-8903-A9FA6AC53062}
 	EndGlobalSection
 EndGlobal
