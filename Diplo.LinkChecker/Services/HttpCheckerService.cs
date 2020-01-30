@@ -21,6 +21,7 @@ namespace Diplo.LinkChecker.Services
 
         static HttpCheckerService()
         {
+            System.Net.ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls11 | SecurityProtocolType.Tls12;
             internalClient = new HttpClient(Config.GetClientHandler());
             internalClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("gzip"));
             internalClient.DefaultRequestHeaders.AcceptEncoding.Add(new StringWithQualityHeaderValue("deflate"));
